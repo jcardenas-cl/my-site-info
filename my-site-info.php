@@ -1,0 +1,57 @@
+<?php
+/**
+ * Plugin Name: My site info
+ * Plugin URI: https://arknite.dev/plugins/my-site-info
+ * Description: Pequeño plugin para agregar información sobre redes sociales, direccion y contacto del sitio.
+ * Version: 1.0.0
+ * Author: Julio Cárdenas
+ * Author URI: https://arknite.dev
+ * Text Domain: my_site_info
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( ! class_exists( 'My_site_info' ) ) {
+	class My_site_info {
+		
+		/**
+		 * Definir la versión del plugin actual.
+		 *
+		 * @var String $plugin_version Versión del plugin.
+		 */
+		private $plugin_version = '1.0.0';
+
+		/**
+		 * Constructor del plugin, de momento se inicia vacio
+		 */
+		public function __construct() {
+
+		}
+
+		/**
+		 * Realiza la instalación del plugin
+		 *
+		 * @return void
+		 */
+		public static function install() {
+			// Do nothing
+		}
+
+		/**
+		 * Metodo que se ejecuta al cargar el plugin, cuando ya esta activado
+		 *
+		 * @return void
+		 */
+		public function init_setup() {
+			include_once plugin_dir_path( __FILE__ ) . 'includes/msi-core.php';
+		}
+	
+	}
+}
+
+$my_site_info = new My_site_info();
+$my_site_info->init_setup();
+
+register_activation_hook( __FILE__, [ 'My_site_info', 'install' ] );
