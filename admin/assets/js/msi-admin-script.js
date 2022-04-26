@@ -19,6 +19,8 @@ const  add_new_item_rrss = () => {
     const close_cnt = document.createElement('div')
     const close     = document.createTextNode('X')
 
+    new_li.setAttribute( 'class', 'rrss-row' )
+
     move_cnt.setAttribute( 'class', 'handler-cnt' )
     move_img.setAttribute( 'src', msi_data.plugins_url + '/my-site-info/admin/assets/img/move-icon.svg')
     move_cnt.append(move_img)
@@ -66,6 +68,20 @@ const  add_new_item_rrss = () => {
     rrss_list.append(new_li)
 }
 
+/**
+ * Oculta la fila con el placeholder en el listado de redes sociales
+ */
+const hide_rrss_row_placeholder = () => {
+    document.getElementById('empty-rrss-row').classList.add('no-display')
+}
+
+/**
+ * Muestra la fila con el placeholder en el listado de redes sociales
+ */
+const show_rrss_row_placeholder = () => {
+    document.getElementById('empty-rrss-row').classList.remove('no-display')
+}
+
 const msi_check_and_format = () => {
     // realizar validacion de campos
 
@@ -80,21 +96,30 @@ const msi_check_and_format = () => {
 const close_row = event => {
     var element = (event.target || event.srcElement)
     element.closest('li').remove()
+    const rrss_rows = document.querySelectorAll('.rrss-row').length
+    if ( rrss_rows == 0 ) {
+        show_rrss_row_placeholder()
+    }
 }
 
 /**
  * Agrega un evento clic a todos los botones cerrar, para asignar la funcion a las filas agregadas dinamicamente.
+ * Este código solo funcionara sobre elementos que ya esten creados al momento de cargar la pagina y no sobre los creados de manera dinamica.
  */
 const close_row_buttons = document.querySelectorAll('.close-btn')
 close_row_buttons.forEach( btn_close => {
     btn_close.addEventListener('click', function( evt ) {
-         close_row( evt )
+        close_row( evt )
     });
 })
 
 const add_rrss_button = document.getElementById('btn-add-social-network')
 add_rrss_button.addEventListener( 'click', function( evt ) {
     add_new_item_rrss()
+    const rrss_rows = document.querySelectorAll('.rrss-row').length
+    if ( rrss_rows > 0 ) {
+        hide_rrss_row_placeholder()
+    }
     slist(document.getElementById("rrss-list"))
 });
 
