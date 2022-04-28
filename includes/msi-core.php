@@ -108,22 +108,9 @@ function collect_and_update_data() {
  * Muestra una estructura html con las distintas rrss agregadas
  */
 function show_rrss_bar() {
-    $rrss_options = json_decode( get_option( 'rrss_options' ) );
-    // En una siguiente version iterar entre una coleccion de redes sociales, por ahora se define solo para bioamerica
-    foreach( $rrss_options as $rrss ):
-    ?>
-    <a 
-    class="linkIco mx-1"
-    style="width: 33px; display: inline-block!important;"
-    href="<?php echo esc_url($rrss->url) ?>"
-    target="_blank">
-        <img 
-            src="<?php echo esc_url( $rrss->icon ); ?>"
-            class="img-fluid">
-        </a>
-    <?php
-    endforeach;
+    include plugin_dir_path( __FILE__ ) . '../public/rrss-layout1.php';
 }
+add_shortcode( 'msi_rrss_bar', 'show_rrss_bar' );
 
 function msi_show_address() {
     echo get_option('msi_address');
@@ -160,3 +147,11 @@ function msi_admin_enqueue_scripts_and_styles() {
     );
 }
 add_action( 'admin_enqueue_scripts', 'msi_admin_enqueue_scripts_and_styles' );
+
+function msi_enqueue_public_scripts_and_styles() {
+    wp_enqueue_style(
+        'msi-style',
+        plugins_url() . '/my-site-info/public/assets/css/msi-style.css'
+    );
+}
+add_action( 'wp_enqueue_scripts', 'msi_enqueue_public_scripts_and_styles' );
