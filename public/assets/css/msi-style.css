@@ -1,0 +1,12 @@
+.msi-rrss-list {
+    list-style: none;
+}
+
+.msi-rrss-list li {
+    display: inline;
+    text-align: center;
+}
+
+.msi-rrss-list img {
+    width: 30px;
+}
