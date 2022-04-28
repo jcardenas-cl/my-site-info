@@ -80,6 +80,9 @@ function collect_and_update_data() {
                 $urls                   = wp_handle_upload( $file, array( 'test_form' => false ) );
                 $icon_url               = $urls["url"];
                 $rrss_info[$i]['icon']  = $icon_url;
+            } else {
+                // No se subió un icono, asi que solo asignamos la url del icono por defecto
+                $rrss_info[$i]['icon']  = plugins_url() . '/my-site-info/admin/assets/img/image-icon.svg';
             }
 
             $i++;
