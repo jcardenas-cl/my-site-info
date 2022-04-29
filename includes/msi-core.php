@@ -105,12 +105,16 @@ function collect_and_update_data() {
 }
 
 /**
- * Muestra una estructura html con las distintas rrss agregadas
+ * Funcion ejecutada mediante shotcode que muestra una lista con redes sociales registradas en el sitio.
+ * Al ser ejecutada por un shortcode, el contenido es retornado y no impreso directamente.
  */
-function show_rrss_bar() {
+function msi_print_rrss_bar() {
+    ob_start();
     include plugin_dir_path( __FILE__ ) . '../public/rrss-layout1.php';
+
+    return ob_get_clean();
 }
-add_shortcode( 'msi_rrss_bar', 'show_rrss_bar' );
+add_shortcode( 'msi_rrss_bar', 'msi_print_rrss_bar' );
 
 function msi_show_address() {
     echo get_option('msi_address');
