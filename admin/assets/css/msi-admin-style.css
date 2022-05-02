@@ -3,9 +3,13 @@
 }
 .msi-container {
     width: 700px;
-    margin: auto auto 75px auto;
+    margin: auto auto 50px auto;
 }
-.msi-container input,
+.col-50-100 {
+    display: inline-block;
+    width: 50%;
+}
+.msi-container .input-text,
 .msi-container table,
 .msi-container textarea {
     width: 100%;
@@ -13,6 +17,9 @@
 .msi-container th {
     text-align: left;
     font-weight: normal;
+}
+.select-rrss-layout {
+    margin-top: 20px;
 }
 
 #rrss-list {

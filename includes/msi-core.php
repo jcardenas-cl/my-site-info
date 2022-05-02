@@ -99,6 +99,7 @@ function collect_and_update_data() {
         update_option( 'msi_whatsapp', $_POST['txt-whatsapp'] );
         update_option( 'msi_address', $_POST['txt-address'] );
         update_option( 'msi_map', $_POST['txt-map'] );
+        update_option( 'layout_rrss', $_POST['rrss-layout'] );
     }
     
     return $has_update;
@@ -107,11 +108,28 @@ function collect_and_update_data() {
 /**
  * Funcion ejecutada mediante shotcode que muestra una lista con redes sociales registradas en el sitio.
  * Al ser ejecutada por un shortcode, el contenido es retornado y no impreso directamente.
+ * 
+ * @param Array $args Argumentos
  */
-function msi_print_rrss_bar() {
-    ob_start();
-    include plugin_dir_path( __FILE__ ) . '../public/rrss-layout1.php';
+function msi_print_rrss_bar( $args ) {
+    $args = shortcode_atts( array(
+        'layout'    => null
+    ), $args );
 
+    $layout_to_use = ( null == get_option( 'layout_rrss' ) ) ? 'layout-1' : get_option( 'layout_rrss' );
+    // En caso que no se especifique el layout por parametro, se usa la configuracion guardada, si tampoco existe, usar template 1
+    if ( !is_null( $args['layout'] ) ) {
+        if ( $args['layout'] == 'layout-2' ) {
+            $layout_to_use = $args['layout'];
+        } else {
+            $layout_to_use = 'layout-1';
+        }
+    }
+
+    ob_start();
+    include plugin_dir_path( __FILE__ ) . '../public/rrss-'.$layout_to_use.'.php';
+    
+    
     return ob_get_clean();
 }
 add_shortcode( 'msi_rrss_bar', 'msi_print_rrss_bar' );
