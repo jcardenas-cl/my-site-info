@@ -46,6 +46,7 @@ if ( ! class_exists( 'My_site_info' ) ) {
 		 */
 		public function init_setup() {
 			include_once plugin_dir_path( __FILE__ ) . 'includes/msi-core.php';
+			include_once plugin_dir_path( __FILE__ ) . 'includes/msi-frontend.php';
 		}
 	
 	}
