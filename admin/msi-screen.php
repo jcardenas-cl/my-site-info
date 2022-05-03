@@ -1,5 +1,7 @@
 <div class="warp">
-    <?php if( $update_result ): ?>
+    <?php if( $update_info->error ): ?>
+    <div class="error"><?php echo $update_info->message; ?></div>
+    <?php elseif( $update_info->updated ): ?>
     <div class="updated"><?php _e('Ajustes guardados.', 'my_site_info' ); ?></div>
     <?php endif; ?>
     <form action="" method="post" name="msi-form" onsubmit="return msi_check_and_format()" enctype="multipart/form-data">

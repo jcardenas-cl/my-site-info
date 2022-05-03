@@ -1,6 +1,7 @@
 <?php
 /**
  * Crea una nueva entrada de opciones en el menú de apariencia
+ * @since 1.0.0
  * 
  * @return void
  */
@@ -16,15 +17,15 @@ function msi_theme_settings() {
 add_action( 'admin_menu', 'msi_theme_settings' );
 
 /**
- * Muesta una pantalla con el formulario de opciones para el tema de funeraria auco
- * 
+ * Validamos que tenga los permisos necesarios para editar los datos, en caso de tenerlos, se le presenta el formulario para administrar los datos.
+ * @since 1.0.0
  * @return void
  */
 function show_display_with_theme_settings() {
 	if ( !current_user_can( 'manage_options' ) )  {
 		wp_die( __( 'Necesita un perfil con otro nivel de acceso para editar esta configuración', 'my_site_info' ) );
 	}
-    $update_result = collect_and_update_data();
+    $update_info = collect_and_update_data();
     include plugin_dir_path( __FILE__ ) . '../admin/msi-screen.php';
     ?>
     <?php
@@ -36,7 +37,10 @@ function show_display_with_theme_settings() {
  * @return bool True si se realizaron actualizaciones, False en caso contrario
  */
 function collect_and_update_data() {
-    $has_update = false;
+    $obj_return             = new stdClass();
+    $obj_return->updated    = false;
+    $obj_return->error      = false;
+    $obj_return->message    = '';
     // Datos de las redes sociales ingresadas
     if ( ! function_exists( 'wp_handle_upload' ) ) {
         require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -95,14 +99,26 @@ function collect_and_update_data() {
     if ( isset( $_POST['txt-mobile-phone'] ) ) {
         update_option( 'msi_mobile_phone', filter_valid_values($_POST['txt-mobile-phone']) );
         update_option( 'msi_phone', filter_valid_values($_POST['txt-phone']) );
-        update_option( 'msi_email', filter_valid_values($_POST['txt-email']) );
+        $emails = explode( ',', filter_valid_values($_POST['txt-email']) );
+        foreach ( $emails as $email ) {
+            if ( !msi_is_valid_email( $email ) ) {
+                $obj_return->error      = true;
+                $obj_return->message    = __('Revise la lista de correos, se ha guardado el resto de los datos', 'my_site_info');
+                break;
+            }
+        }
+        if( !$obj_return->error ) {
+            update_option( 'msi_email', filter_valid_values($_POST['txt-email']) );
+        }
+        
         update_option( 'msi_whatsapp', filter_valid_values($_POST['txt-whatsapp']) );
         update_option( 'msi_address', $_POST['txt-address'] );
         update_option( 'msi_map', $_POST['txt-map'] );
         update_option( 'layout_rrss', $_POST['rrss-layout'] );
+        $obj_return->updated = true;
     }
     
-    return $has_update;
+    return $obj_return;
 }
 
 /**
@@ -110,13 +126,13 @@ function collect_and_update_data() {
  * esta funcion no valida si son valores validos como correos o telefonos, solo valida
  * que exista un valor presente, en caso de que se encuentren secciones vacias ya sea por
  * estar en ,, o por comas al final de una cadena.
- * 
+ * @since 1.0.0
  * @param string $str_values Cadena con los valores a guardar.
  * @return string Cadena con los valores validos.
  */
 function filter_valid_values( $str_values ) {
-    $array_values = explode( ',', $str_values );
-    $return = array();
+    $array_values   = explode( ',', $str_values );
+    $return         = array();
     foreach ( $array_values as $item_value ) {
         if ( '' != trim( $item_value ) ) {
             $return[] = trim($item_value);
@@ -126,11 +142,25 @@ function filter_valid_values( $str_values ) {
     return implode( ',', $return );
 }
 
-function msi_show_address() {
-    echo get_option('msi_address');
+/**
+ * Valida que un correo sea valido.
+ * @since 1.0.0
+ * 
+ * @param string $email Cadena con el correo a validar
+ * @return bool True de ser valido, false en caso contrario.
+ */
+function msi_is_valid_email( $email ) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    return true;
 }
 
-
+/**
+ * Agregamos a la cola el listado de estilos y scripts que se usaran exclusivamente en el administrador.
+ * @since 1.0.0
+ */
 function msi_admin_enqueue_scripts_and_styles() {
     wp_enqueue_style(
         'msi-style',
@@ -155,6 +185,10 @@ function msi_admin_enqueue_scripts_and_styles() {
 }
 add_action( 'admin_enqueue_scripts', 'msi_admin_enqueue_scripts_and_styles' );
 
+/**
+ * Se agregan a la cola el listado de estilos y script que se usan en el sitio de cara al usuario.
+ * @since 1.0.0
+ */
 function msi_enqueue_public_scripts_and_styles() {
     wp_enqueue_style(
         'msi-style',
