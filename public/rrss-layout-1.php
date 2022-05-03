@@ -8,7 +8,15 @@
     <ul class="msi-rrss-list">
         <?php
         $rrss_options = json_decode( get_option( 'rrss_options' ) );
-        foreach( $rrss_options as $rrss ):
+        $max = count( $rrss_options ) - 1;
+        if ( $args['start'] + $args['limit'] <= $max ) {
+            $max = $args['start'] + $args['limit'];
+        }
+        $i = -1;
+        foreach ( $rrss_options as $rrss ):
+            $i++;
+            if ( $i < $args['start'] ) continue;
+            if ( $i > $max ) break;
             ?>
             <li class="msi-list-item">
                 <a href="<?php echo esc_url($rrss->url) ?>" class="msi-rrss-anchor" target="_blank">
