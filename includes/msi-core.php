@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Crea una nueva entrada de opciones en el menú de apariencia
  * 
@@ -127,46 +126,10 @@ function filter_valid_values( $str_values ) {
     return implode( ',', $return );
 }
 
-/**
- * Funcion ejecutada mediante shotcode que muestra una lista con redes sociales registradas en el sitio.
- * Al ser ejecutada por un shortcode, el contenido es retornado y no impreso directamente.
- * 
- * @param Array $args Argumentos
- */
-function msi_print_rrss_bar( $args ) {
-    $args = shortcode_atts( array(
-        'layout'    => null
-    ), $args );
-
-    $layout_to_use = ( null == get_option( 'layout_rrss' ) ) ? 'layout-1' : get_option( 'layout_rrss' );
-    // En caso que no se especifique el layout por parametro, se usa la configuracion guardada, si tampoco existe, usar template 1
-    if ( !is_null( $args['layout'] ) ) {
-        if ( $args['layout'] == 'layout-2' ) {
-            $layout_to_use = $args['layout'];
-        } else {
-            $layout_to_use = 'layout-1';
-        }
-    }
-
-    ob_start();
-    include plugin_dir_path( __FILE__ ) . '../public/rrss-'.$layout_to_use.'.php';
-    
-    
-    return ob_get_clean();
-}
-add_shortcode( 'msi_rrss_bar', 'msi_print_rrss_bar' );
-
 function msi_show_address() {
     echo get_option('msi_address');
 }
 
-function msi_show_phone() {
-    echo get_option('msi_phone');
-}
-
-function msi_show_email() {
-    echo get_option('msi_email');
-}
 
 function msi_admin_enqueue_scripts_and_styles() {
     wp_enqueue_style(

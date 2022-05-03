@@ -1,5 +1,34 @@
 <?php
 /**
+ * Funcion ejecutada mediante shotcode que muestra una lista con redes sociales registradas en el sitio.
+ * Al ser ejecutada por un shortcode, el contenido es retornado y no impreso directamente.
+ * 
+ * @param Array $args Argumentos
+ */
+add_shortcode( 'msi_rrss_bar', function ( $args ) {
+    $args = shortcode_atts( array(
+        'layout'    => null,
+        'limit'     => 99,
+        'start'     => 0,
+    ), $args );
+
+    $layout_to_use = get_option( 'layout_rrss' );
+    // En caso que no se especifique el layout por parametro, se usa la configuracion guardada.
+    if ( !is_null( $args['layout'] ) ) {
+        if ( $args['layout'] == 'layout-2' ) {
+            $layout_to_use = $args['layout'];
+        } else {
+            $layout_to_use = 'layout-1';
+        }
+    }
+
+    ob_start();
+    include plugin_dir_path( __FILE__ ) . '../public/rrss-' . $layout_to_use . '.php';
+    return ob_get_clean();
+} );
+
+
+/**
  * Shortcode para mostrar lista con telefonos celulares en el sitio.
  */
 add_shortcode( 'msi_show_mobile_phone_bar', function( $args ) {
