@@ -46,7 +46,7 @@ add_shortcode( 'msi_show_mobile_phone_bar', function( $args ) {
         $max = $args['start'] + $args['limit'];
     }
     
-    $output = '<ul class="msi-mobile-phone-list">'; // String con la lista de telefonos.
+    $output = '<div class="msi-container"><ul class="msi-mobile-phone-list">'; // String con la lista de telefonos.
 
     if ( '' != trim($phones[0]) ) {
         for ( $i = $args['start']; $i <= $max - 1; $i++ ) {
@@ -54,7 +54,7 @@ add_shortcode( 'msi_show_mobile_phone_bar', function( $args ) {
         }
     }
 
-    $output .= '</ul>';
+    $output .= '</ul></div>';
 
     return $output;
 } );
@@ -74,7 +74,7 @@ add_shortcode( 'msi_show_phone_bar', function( $args ) {
         $max = $args['start'] + $args['limit'];
     }
     
-    $output = '<ul class="msi-phone-list">';
+    $output = '<div class="msi-container"><ul class="msi-phone-list">';
 
     if ( '' != trim($phones[0]) ) {
         for ( $i = $args['start']; $i <= $max - 1; $i++ ) {
@@ -82,7 +82,7 @@ add_shortcode( 'msi_show_phone_bar', function( $args ) {
         }
     }
 
-    $output .= '</ul>';
+    $output .= '</ul></div>';
 
     return $output;
 } );
@@ -102,7 +102,7 @@ add_shortcode( 'msi_show_email_bar', function( $args ) {
         $max = $args['start'] + $args['limit'];
     }
 
-    $output = '<ul class="msi-email-list">';
+    $output = '<div class="msi-container"><ul class="msi-email-list">';
 
     if ( '' != trim($emails[0]) ) {
         for( $i = $args['start']; $i <= $max - 1; $i++ ) {
@@ -110,7 +110,7 @@ add_shortcode( 'msi_show_email_bar', function( $args ) {
         }
     }
 
-    $output .= '</ul>';
+    $output .= '</ul></div>';
 
     return $output;
 } );
@@ -131,7 +131,7 @@ add_shortcode( 'msi_show_whatsapp_bar', function( $args ) {
         $max = $args['start'] + $args['limit'];
     }
 
-    $output = '<ul class="msi-whatsapp-list">';
+    $output = '<div class="msi-container"><ul class="msi-whatsapp-list">';
     
     // Explode retorna al menos un elemento de array, independiente de si tiene un valor luego de la operación.
     if ( '' != trim($phones[0]) ) {
@@ -140,7 +140,31 @@ add_shortcode( 'msi_show_whatsapp_bar', function( $args ) {
         }
     }
 
-    $output .= '</ul>';
+    $output .= '</ul></div>';
+
+    return $output;
+} );
+
+/**
+ * Shortcode para mostrar la dirección real.
+ */
+add_shortcode( 'msi_show_address', function() {
+    $address = get_option( 'msi_address' );
+
+    $output = '<div class="msi-container"><div class="msi-address">';
+    $output .= $address;
+    $output .= '</div></div>';
+
+    return $output;
+} );
+
+
+add_shortcode( 'msi_show_map', function() {
+    $map = get_option( 'msi_map' );
+
+    $output = '<div class="msi-container"><div class="msi-address">';
+    $output .= $map;
+    $output .= '</div></div>';
 
     return $output;
 } );

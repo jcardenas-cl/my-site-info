@@ -1,10 +1,18 @@
-.msi-rrss-list {
+.msi-rrss-list,
+.msi-mobile-phone-list,
+.msi-phone-list,
+.msi-email-list,
+.msi-whatsapp-list {
     list-style: none;
+    padding: 0;
 }
 
 .msi-rrss-list li {
     display: inline;
     text-align: center;
+}
+a.msi-rrss-anchor {
+    text-decoration: none;
 }
 
 .msi-rrss-list img {
