@@ -13,13 +13,17 @@ add_shortcode( 'msi_show_mobile_phone_bar', function( $args ) {
     ), $args);
     
     $output = '<ul class="msi-mobile-phone-list">'; // String con la lista de telefonos.
-    for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
-        if ( isset($phones[$i]) ) {
-            $output .= '<li><a href="tel:' . $phones[$i] . '">' . trim( $phones[$i] ) . '</a></li>';
-        } else {
-            break;
+
+    if ( '' != trim($phones[0]) ) {
+        for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
+            if ( isset($phones[$i]) ) {
+                $output .= '<li><a href="tel:' . $phones[$i] . '">' . trim( $phones[$i] ) . '</a></li>';
+            } else {
+                break;
+            }
         }
     }
+    
     $output .= '</ul>';
 
     return $output;
@@ -35,14 +39,18 @@ add_shortcode( 'msi_show_phone_bar', function( $args ) {
         'start' => 0,
     ), $args);
     
-    $output = '<ul class="msi-phone-list">'; // String con la lista de telefonos.
-    for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
-        if ( isset($phones[$i]) ) {
-            $output .= '<li><a href="tel:' . $phones[$i] . '">' . trim($phones[$i]) . '</a></li>';
-        } else {
-            break;
+    $output = '<ul class="msi-phone-list">';
+
+    if ( '' != trim($phones[0]) ) {
+        for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
+            if ( isset($phones[$i]) ) {
+                $output .= '<li><a href="tel:' . $phones[$i] . '">' . trim($phones[$i]) . '</a></li>';
+            } else {
+                break;
+            }
         }
     }
+
     $output .= '</ul>';
 
     return $output;
@@ -57,14 +65,18 @@ add_shortcode( 'msi_show_email_bar', function( $args ) {
         'limit' => count($emails),
         'start' => 0,
     ), $args);
-    $output = '<ul class="msi-email-list">'; // String con la lista de telefonos.
-    for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
-        if ( isset($emails[$i]) ) {
-            $output .= '<li><a href="mailto:' . $emails[$i] . '">' . trim($emails[$i]) . '</a></li>';
-        } else {
-            break;
+    $output = '<ul class="msi-email-list">';
+
+    if ( '' != trim($emails[0]) ) {
+        for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
+            if ( isset($emails[$i]) ) {
+                $output .= '<li><a href="mailto:' . $emails[$i] . '">' . trim($emails[$i]) . '</a></li>';
+            } else {
+                break;
+            }
         }
     }
+
     $output .= '</ul>';
 
     return $output;
@@ -75,19 +87,25 @@ add_shortcode( 'msi_show_email_bar', function( $args ) {
  */
 add_shortcode( 'msi_show_whatsapp_bar', function( $args ) {
     $phones = explode( ',', get_option( 'msi_whatsapp' ) );
+    $max_phones_index = count($phones);
     $args = shortcode_atts( array (
         'limit' => count($phones),
         'start' => 0,
     ), $args);
+
+    $output = '<ul class="msi-whatsapp-list">';
     
-    $output = '<ul class="msi-whatsapp-list">'; // String con la lista de telefonos.
-    for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
-        if ( isset($phones[$i]) ) {
-            $output .= '<li><a href="https://api.whatsapp.com/send/?phone:' . $phones[$i] . '">' . trim($phones[$i]) . '</a></li>';
-        } else {
-            break;
+    // Explode retorna al menos un elemento de array, independiente de si tiene un valor luego de la operación.
+    if ( '' != trim($phones[0]) ) {
+        for( $i = $args['start']; $i <= ($args['start'] + $args['limit']) - 1; $i++ ) {
+            if ( isset($phones[$i]) ) {
+                $output .= '<li><a href="https://api.whatsapp.com/send/?phone:' . $phones[$i] . '">' . trim($phones[$i]) . '</a></li>';
+            } else {
+                break;
+            }
         }
     }
+
     $output .= '</ul>';
 
     return $output;
