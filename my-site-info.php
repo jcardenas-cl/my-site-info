@@ -36,7 +36,7 @@ if ( ! class_exists( 'My_site_info' ) ) {
 		 * @return void
 		 */
 		public static function install() {
-			// Do nothing
+			update_option( 'layout_rrss', 'layout-1' );
 		}
 
 		/**
