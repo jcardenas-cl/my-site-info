@@ -5,7 +5,7 @@
  * 
  * @param Array $args Argumentos
  */
-add_shortcode( 'msi_rrss_bar', function ( $args ) {
+add_shortcode( 'msi_show_rrss_bar', function ( $args ) {
     $args = shortcode_atts( array(
         'layout'    => null,
         'limit'     => 99,
