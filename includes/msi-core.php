@@ -41,6 +41,7 @@ function collect_and_update_data() {
     $obj_return->updated    = false;
     $obj_return->error      = false;
     $obj_return->message    = '';
+    $obj_return->error_items= array();
     // Datos de las redes sociales ingresadas
     if ( ! function_exists( 'wp_handle_upload' ) ) {
         require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -97,25 +98,51 @@ function collect_and_update_data() {
 
     // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
     if ( isset( $_POST['txt-mobile-phone'] ) ) {
-        update_option( 'msi_mobile_phone', filter_valid_values( $_POST['txt-mobile-phone'] ) );
-        update_option( 'msi_phone', filter_valid_values( $_POST['txt-phone'] ) );
-        $emails = explode( ',', filter_valid_values( $_POST['txt-email'] ) );
-        foreach ( $emails as $email ) {
-            if ( !msi_is_valid_email( $email ) ) {
-                $obj_return->error      = true;
-                $obj_return->message    = __('Revise la lista de correos, se ha guardado el resto de los datos', 'my_site_info');
-                break;
-            }
+        
+        // Validación teléfono móvil
+        $mobile_phones = filter_valid_values( $_POST['txt-mobile-phone'] );
+        if ( msi_is_valid_phone_number_format( $mobile_phones ) ) {
+            update_option( 'msi_mobile_phone', implode( ',', $mobile_phones ) );
+        } else {
+            $obj_return->error          = true;
+            $obj_return->error_items[]  = __('Celular', 'my_site_info');
         }
-        if ( !$obj_return->error ) {
-            update_option( 'msi_email', filter_valid_values( $_POST['txt-email'] ) );
+
+        // Validación teléfono fijo
+        $phones = filter_valid_values( $_POST['txt-phone'] );
+        if ( msi_is_valid_phone_number_format( $phones ) ) {
+            update_option( 'msi_phone', implode( ',', $phones ) );
+        } else {
+            $obj_return->error          = true;
+            $obj_return->error_items[]  = __('Teléfono', 'my_site_info');
         }
         
-        update_option( 'msi_whatsapp', filter_valid_values( $_POST['txt-whatsapp'] ) );
+        // Validación de correos
+        $emails = filter_valid_values( $_POST['txt-email'] );
+        if ( msi_is_valid_email( $emails ) ) {
+            update_option( 'msi_email', implode( ',', $emails ) );
+        } else {
+            $obj_return->error          = true;
+            $obj_return->error_items[]  = __('Correos', 'my_site_info');
+        }
+        
+        // Validación de teléfonos whatsapp
+        $wsp_phones = filter_valid_values( $_POST['txt-whatsapp'] );
+        if ( msi_is_valid_phone_number_format( $wsp_phones ) ) {
+            update_option( 'msi_whatsapp', implode( ',', $wsp_phones ) );
+        } else {
+            $obj_return->error          = true;
+            $obj_return->error_items[]  = __('WhatsApp', 'my_site_info');
+        }
+
         update_option( 'msi_address', $_POST['txt-address'] );
         update_option( 'msi_map', $_POST['txt-map'] );
         update_option( 'layout_rrss', $_POST['rrss-layout'] );
         $obj_return->updated = true;
+    }
+
+    if ( $obj_return->error ) {
+        $obj_return->message = __( 'Por favor revise los siguientes campos: ', 'my_site_info' ) . implode( ', ', $obj_return->error_items ) . __( '. Los demas datos se han guardado', 'my_site_info' );
     }
     
     return $obj_return;
@@ -124,11 +151,11 @@ function collect_and_update_data() {
 /**
  * Funcion sencilla que se encarga de validar que exista contenido en medio de los separadores,
  * esta funcion no valida si son valores validos como correos o telefonos, solo valida
- * que exista un valor presente, en caso de que se encuentren secciones vacias ya sea por
+ * que tenga un valor presente, en caso de que se encuentren secciones vacias ya sea por
  * estar en ,, o por comas al final de una cadena.
  * @since 1.0.0
  * @param string $str_values Cadena con los valores a guardar.
- * @return string Cadena con los valores validos.
+ * @return array Arreglo con valores que no esten vacios
  */
 function filter_valid_values( $str_values ) {
     $array_values   = explode( ',', $str_values );
@@ -139,21 +166,57 @@ function filter_valid_values( $str_values ) {
         }
     }
 
-    return implode( ',', $return );
+    return $return;
 }
 
 /**
  * Valida que un correo sea valido.
  * @since 1.0.0
  * 
- * @param string $email Cadena con el correo a validar
+ * @param string|array $email Cadena con el correo a validar o arreglo con una lista de cadenas.
  * @return bool True de ser valido, false en caso contrario.
  */
 function msi_is_valid_email( $email ) {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return false;
+    // Forzamos que sea un arreglo para procesar todo de la misma manera
+    if ( 'array' == gettype($email) ) {
+        $emails = $email;
+    } else {
+        $emails[0] = $email;
     }
 
+    foreach ( $emails as $email ) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Valida que un elemento tiena un formato valido como número telefónico. Dado que puede llegar a ser usado con números internacionales
+ * solo se valida que la cadena tenga números y el simbolo "+" de manera opcional.
+ * @since 1.0.0
+ * 
+ * @param string|array $phone Cadena con el número telefónico a validar, también puede ser un arreglo con varias cadenas a validar.
+ * @return bool True en caso de ser valido, false en caso contrario.
+ */
+function msi_is_valid_phone_number_format( $phone ) {
+    // Forzamos que sea un arreglo para procesar todo de la misma manera
+    if ( 'array' == gettype($phone) ) {
+        $phones = $phone;
+    } else {
+        $phones[0] = $phone;
+    }
+
+    // Validamos que cada item tenga el formato correcto.
+    foreach ( $phones as $phone ) {
+        $number_portion = substr( $phone, 1, strlen($phone) - 1 );
+        if ( !is_numeric( $number_portion ) or ( !is_numeric( $phone[0] ) and $phone[0] != '+' ) ) {
+            return false;
+        }
+    }
+    
     return true;
 }
 
