@@ -63,7 +63,7 @@
                         <input type="radio" name="rrss-layout" id="layout-2" class="input-radio" value="layout-2" <?php echo $checked; ?> />
                         <?php _e( 'Iconos y nombre', 'my_site_info' ); ?></label>
                 </div>
-                <pre>Agregue el shorcode [msi_rrss_bar] para mostrar las redes sociales</pre>
+                <div class="hint"><?php _e( 'Agregue el shorcode [msi_rrss_bar] para mostrar las redes sociales', 'my_site_info' ); ?></div>
             </section>
         </div>
 
@@ -106,7 +106,8 @@
                     type="text"
                     name="txt-whatsapp"
                     class="input-text"
-                    value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" /></td>
+                    value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" />
+                    <span class="hint"><?php _e( 'Separe multiples correos con una coma', 'my_site_info' ); ?></span></td>
                 </tr>
             </table>
         </div>
@@ -129,11 +130,19 @@
                 
                 <tr valign="top">
                 <th scope="row"><?php _e( 'Mapa', 'my_site_info' ); ?></th>
-                <td><textarea name="txt-map" id="" rows="10"><?php echo esc_attr( get_option('msi_map') ); ?></textarea></td>
+                <td>
+                    <?php
+                    wp_editor( stripslashes(get_option('msi_map')), 'txt-map', $settings = array(
+                        'textarea_rows'	=> 20,
+                        'wpautop' 		=> false,
+                        'media_buttons'	=> false,
+                    ) );
+                    ?>
+                </td>
                 </tr>
             </table>
         </div>
 
-        <?php submit_button('Guardar', 'primary'); ?>
+        <?php submit_button(__('Guardar', 'my_site_info'), 'primary'); ?>
     </form>
 </div>
