@@ -1,6 +1,9 @@
 .no-display {
     display: none;
 }
+.hint {
+    color: #5a5a5a;
+}
 .msi-container {
     width: 700px;
     margin: auto auto 50px auto;
@@ -19,7 +22,7 @@
     font-weight: normal;
 }
 .select-rrss-layout {
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 #rrss-list {
@@ -92,4 +95,13 @@
 }
 .slist li.active {
     background-color: #b6bee5;    
-} 
+}
+
+@media screen and (max-width: 800px) {
+    .msi-container {
+        width: 100%;
+    }
+    #rrss-list .handler-cnt, #rrss-list .rrss-icon-cnt {
+        padding: 0;
+    }
+}
