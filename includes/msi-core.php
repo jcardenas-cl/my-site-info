@@ -97,9 +97,9 @@ function collect_and_update_data() {
 
     // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
     if ( isset( $_POST['txt-mobile-phone'] ) ) {
-        update_option( 'msi_mobile_phone', filter_valid_values($_POST['txt-mobile-phone']) );
-        update_option( 'msi_phone', filter_valid_values($_POST['txt-phone']) );
-        $emails = explode( ',', filter_valid_values($_POST['txt-email']) );
+        update_option( 'msi_mobile_phone', filter_valid_values( $_POST['txt-mobile-phone'] ) );
+        update_option( 'msi_phone', filter_valid_values( $_POST['txt-phone'] ) );
+        $emails = explode( ',', filter_valid_values( $_POST['txt-email'] ) );
         foreach ( $emails as $email ) {
             if ( !msi_is_valid_email( $email ) ) {
                 $obj_return->error      = true;
@@ -107,11 +107,11 @@ function collect_and_update_data() {
                 break;
             }
         }
-        if( !$obj_return->error ) {
-            update_option( 'msi_email', filter_valid_values($_POST['txt-email']) );
+        if ( !$obj_return->error ) {
+            update_option( 'msi_email', filter_valid_values( $_POST['txt-email'] ) );
         }
         
-        update_option( 'msi_whatsapp', filter_valid_values($_POST['txt-whatsapp']) );
+        update_option( 'msi_whatsapp', filter_valid_values( $_POST['txt-whatsapp'] ) );
         update_option( 'msi_address', $_POST['txt-address'] );
         update_option( 'msi_map', $_POST['txt-map'] );
         update_option( 'layout_rrss', $_POST['rrss-layout'] );
