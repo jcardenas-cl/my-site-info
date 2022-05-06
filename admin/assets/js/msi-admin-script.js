@@ -82,10 +82,83 @@ const show_rrss_row_placeholder = () => {
     document.getElementById('empty-rrss-row').classList.remove('no-display')
 }
 
-const msi_check_and_format = () => {
-    // realizar validacion de campos
+/**
+ * Valida que un string contenga uno o mas correos separados por comas tengan un formato de correo electronico.
+ * 
+ * @param {string} str_emails Cadena con una lista de correos, esta puede estar separada por comas.
+ * @return {bool} True de ser valido, false en caso contrario
+ */
+const msi_is_valid_email_list = str_emails => {
+    const valid_regex_format    = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const email_list            = str_emails.split(',')
+    for ( email in email_list ) {
+        if ( !email_list[email].trim().match(valid_regex_format) )  {
+            return false
+        }
+    }
 
     return true
+}
+
+/**
+ * Valida si uno o mas telefonos, separados por coma, tienen el formato valido de número telefonico.
+ * Solo se admite el simbolo "+" y números.
+ * 
+ * @param {string} str_phones Cadena con uno o mas teléfonos a validar
+ * @returns {bool} True en caso de ser valido, false en caso contrario
+ */
+const msi_is_valid_phone_list = str_phones => {
+    const phone_list = str_phones.split(',')
+    for ( phone in phone_list ) {
+        var phone_item = phone_list[phone]
+        phone_item = phone_item.trim()
+        if ( !(/^\d+$/.test(phone_item.substring(1))) || ( !(/^\d+$/.test(phone_item.charAt(0))) && phone_item.charAt(0) != '+' ) ) {
+            return false
+        }
+    }
+
+    return true
+}
+
+/**
+ * Funcion ejecutada al realizar el submit del formulario.
+ */
+const msi_check_and_format = () => {
+    const cellphone_values  = document.getElementById('txt-mobile-phone').value
+    const email_values      = document.getElementById('txt-email').value
+    const phone_values      = document.getElementById('txt-phone').value
+    const whatsapp_phones   = document.getElementById('txt-whatsapp').value
+
+    var valid_cellphones    = true
+    var valid_emails        = true
+    var valid_phones        = true
+    var valid_wsp_phones    = true
+
+    if ( !msi_is_valid_phone_list( cellphone_values ) ) {
+        valid_cellphones = false
+        document.getElementById('txt-mobile-phone').classList.add('error')
+    }
+    if ( !msi_is_valid_email_list( email_values ) ) {
+        valid_emails = false
+        document.getElementById('txt-email').classList.add('error')
+    }
+    if ( !msi_is_valid_phone_list( phone_values ) ) {
+        valid_phones = false
+        document.getElementById('txt-phone').classList.add('error')
+    }
+    if ( !msi_is_valid_phone_list( whatsapp_phones ) ) {
+        valid_wsp_phones = false
+        document.getElementById('txt-whatsapp').classList.add('error')
+    }
+
+    if ( valid_cellphones && valid_emails && valid_phones && valid_wsp_phones ) {
+        return true
+    }
+
+    alert("Favor, revise los campos marcados")
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    return false
 }
 
 /**
@@ -113,6 +186,9 @@ close_row_buttons.forEach( btn_close => {
     });
 })
 
+/**
+ * Controlador para agregar un row a la lista de redes sociales, además controla que se muestre u oculte el placeholder mientras la lista esta vacia.
+ */
 const add_rrss_button = document.getElementById('btn-add-social-network')
 add_rrss_button.addEventListener( 'click', function( evt ) {
     add_new_item_rrss()

@@ -12,6 +12,9 @@
     display: inline-block;
     width: 50%;
 }
+.msi-container .error {
+    border: 1px solid red;
+}
 .msi-container .input-text,
 .msi-container table,
 .msi-container textarea {

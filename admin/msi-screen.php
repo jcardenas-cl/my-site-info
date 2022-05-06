@@ -75,6 +75,7 @@
                 <td><input
                     type="text"
                     name="txt-mobile-phone"
+                    id="txt-mobile-phone"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_mobile_phone') ); ?>" />
                     <span class="hint"><?php _e( 'Separe multiples números con una coma', 'my_site_info' ); ?></span></td>
@@ -85,6 +86,7 @@
                 <td><input
                     type="text"
                     name="txt-phone"
+                    id="txt-phone"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_phone') ); ?>" />
                     <span class="hint"><?php _e( 'Separe multiples números con una coma', 'my_site_info' ); ?></span></td>
@@ -95,6 +97,7 @@
                 <td><input
                     type="text"
                     name="txt-email"
+                    id="txt-email"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_email') ); ?>" />
                     <span class="hint"><?php _e( 'Separe multiples correos con una coma', 'my_site_info' ); ?></span></td>
@@ -105,6 +108,7 @@
                 <td><input
                     type="text"
                     name="txt-whatsapp"
+                    id="txt-whatsapp"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" />
                     <span class="hint"><?php _e( 'Separe multiples correos con una coma', 'my_site_info' ); ?></span></td>
