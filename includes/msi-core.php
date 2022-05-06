@@ -232,9 +232,14 @@ function msi_admin_enqueue_scripts_and_styles() {
     wp_enqueue_script(
         'msi-script',
         plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.js',
-        array(),
+        array( 'wp-i18n' ),
         time(),
         true
+    );
+    wp_set_script_translations(
+        'msi-script',
+        'my_site_info',
+        plugins_url('languages', __FILE__ )
     );
     wp_localize_script(
         'msi-script',

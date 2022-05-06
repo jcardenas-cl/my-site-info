@@ -1,3 +1,4 @@
+const { __, _x, _n, sprintf } = wp.i18n;
 /**
  * Funcion encargada de agregar una nueva fila con todos sus elementos al listado de redes sociales.
  */
@@ -155,9 +156,9 @@ const msi_check_and_format = () => {
         return true
     }
 
-    alert("Favor, revise los campos marcados")
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    alert(__("Favor, revise los campos marcados", "my_site_info"))
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     return false
 }
 
