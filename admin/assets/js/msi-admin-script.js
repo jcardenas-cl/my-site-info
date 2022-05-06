@@ -38,7 +38,7 @@ const  add_new_item_rrss = () => {
         }
     }
     current_ic.setAttribute( 'type', 'hidden' )
-    current_ic.setAttribute( 'name', 'current-icon[]' )
+    current_ic.setAttribute( 'name', 'current_icon[]' )
     current_ic.setAttribute( 'value',  msi_data.plugins_url + '/my-site-info/admin/assets/img/image-icon.svg')
     icon_lbl.append(icon_file)
     icon_lbl.append(icon)

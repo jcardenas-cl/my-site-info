@@ -94,6 +94,8 @@ function collect_and_update_data() {
 
         $rrss_json = json_encode( $rrss_info );
         update_option( 'rrss_options', $rrss_json );
+    } else {
+        update_option( 'rrss_options', null );
     }
 
     // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
