@@ -11,13 +11,13 @@
                 <ul id="rrss-list">
                 <?php
                 $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
-                $show_placeholder   = ( 'object' != gettype($rrss_row) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';
+                $show_placeholder   = ( 'array' != gettype($rrss_rows) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';
                     ?>
                     <li id="empty-rrss-row" class="<?php echo esc_attr($show_placeholder); ?>">
                         <?php _e( 'Haga clic en "Agregar red social" para iniciar este listado', 'my_site_info' ); ?>
                     </li>
                     <?php
-                    if ( ( 'object' == gettype($rrss_row) and 0 < count( $rrss_rows ) ) ):
+                    if ( ( 'array' == gettype($rrss_rows) and 0 < count( $rrss_rows ) ) ):
                         foreach( $rrss_rows as $rrss_row ):
                         ?>
                         <li class="rrss-row">
