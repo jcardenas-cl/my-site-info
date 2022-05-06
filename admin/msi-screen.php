@@ -10,44 +10,46 @@
                 <h3><?php _e( 'Redes Sociales', 'my_site_info' ); ?></h3>
                 <ul id="rrss-list">
                 <?php
-                $rrss_rows = json_decode( get_option( 'rrss_options' ) );
-                $show_placeholder = ( 0 == count( $rrss_rows ) ) ? '' : 'no-display';
+                $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
+                $show_placeholder   = ( 'object' != gettype($rrss_row) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';
                     ?>
                     <li id="empty-rrss-row" class="<?php echo esc_attr($show_placeholder); ?>">
                         <?php _e( 'Haga clic en "Agregar red social" para iniciar este listado', 'my_site_info' ); ?>
                     </li>
                     <?php
-                foreach( $rrss_rows as $rrss_row ):
+                    if ( ( 'object' == gettype($rrss_row) and 0 < count( $rrss_rows ) ) ):
+                        foreach( $rrss_rows as $rrss_row ):
+                        ?>
+                        <li class="rrss-row">
+                            <div class="handler-cnt">
+                                <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/move-icon.svg'; ?>">
+                            </div>
+                            <div class="rrss-icon-cnt">
+                                <label>
+                                    <input type="file" name="rrss_icon[]" class="input-file">
+                                    <img src="<?php echo esc_attr( $rrss_row->icon ); ?>">
+                                </label>
+                                <input type="hidden" name="current_icon[]" value="<?php echo esc_attr( $rrss_row->icon ); ?>"></div>
+                            <div class="name-cnt">
+                                <input
+                                    type="text"
+                                    placeholder="Nombre"
+                                    name="rrss_name[]"
+                                    class="input-text"
+                                    value="<?php echo esc_attr( $rrss_row->name ); ?>"></div>
+                            <div class="url-cnt">
+                                <input
+                                    type="url"
+                                    placeholder="Url"
+                                    name="rrss_url[]"
+                                    class="input-text"
+                                    value="<?php echo esc_attr( $rrss_row->url ); ?>"></div>
+                            <div class="close-btn">X</div>
+                        </li>
+                        <?php
+                        endforeach;
+                    endif;
                     ?>
-                    <li class="rrss-row">
-                        <div class="handler-cnt">
-                            <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/move-icon.svg'; ?>">
-                        </div>
-                        <div class="rrss-icon-cnt">
-                            <label>
-                                <input type="file" name="rrss_icon[]" class="input-file">
-                                <img src="<?php echo esc_attr( $rrss_row->icon ); ?>">
-                            </label>
-                            <input type="hidden" name="current_icon[]" value="<?php echo esc_attr( $rrss_row->icon ); ?>"></div>
-                        <div class="name-cnt">
-                            <input
-                                type="text"
-                                placeholder="Nombre"
-                                name="rrss_name[]"
-                                class="input-text"
-                                value="<?php echo esc_attr( $rrss_row->name ); ?>"></div>
-                        <div class="url-cnt">
-                            <input
-                                type="url"
-                                placeholder="Url"
-                                name="rrss_url[]"
-                                class="input-text"
-                                value="<?php echo esc_attr( $rrss_row->url ); ?>"></div>
-                        <div class="close-btn">X</div>
-                    </li>
-                    <?php
-                endforeach;
-                ?>
                 </ul>
                 <div id="btn-add-social-network">
                     <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/add-icon.svg'; ?>" />
