@@ -4,6 +4,9 @@
 .hint {
     color: #5a5a5a;
 }
+.hint i {
+    font-size: 0.9em;
+}
 .msi-container {
     width: 700px;
     margin: auto auto 50px auto;

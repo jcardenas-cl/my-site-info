@@ -65,7 +65,7 @@
                         <input type="radio" name="rrss-layout" id="layout-2" class="input-radio" value="layout-2" <?php echo $checked; ?> />
                         <?php _e( 'Iconos y nombre', 'my_site_info' ); ?></label>
                 </div>
-                <div class="hint"><?php _e( 'Agregue el shorcode [msi_rrss_bar] para mostrar las redes sociales', 'my_site_info' ); ?></div>
+                <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_rrss_bar]</i> </div>
             </section>
         </div>
 
@@ -80,7 +80,7 @@
                     id="txt-mobile-phone"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_mobile_phone') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples números con una coma', 'my_site_info' ); ?></span></td>
+                    <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_mobile_phone_bar]</i></span></td>
                 </tr>
                 
                 <tr valign="top">
@@ -91,7 +91,7 @@
                     id="txt-phone"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_phone') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples números con una coma', 'my_site_info' ); ?></span></td>
+                    <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_phone_bar]</i></span></td>
                 </tr>
                 
                 <tr valign="top">
@@ -102,7 +102,7 @@
                     id="txt-email"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_email') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples correos con una coma', 'my_site_info' ); ?></span></td>
+                    <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_email_bar]</i></span></td>
                 </tr>
 
                 <tr valign="top">
@@ -113,7 +113,7 @@
                     id="txt-whatsapp"
                     class="input-text"
                     value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples correos con una coma', 'my_site_info' ); ?></span></td>
+                    <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_whatsapp_bar]</i></span></td>
                 </tr>
             </table>
         </div>
@@ -131,6 +131,7 @@
                         'media_buttons'	=> false,
                     ) );
                     ?>
+                    <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_address]</i> </div>
                 </td>
                 </tr>
                 
@@ -144,6 +145,7 @@
                         'media_buttons'	=> false,
                     ) );
                     ?>
+                    <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_map]</i> </div>
                 </td>
                 </tr>
             </table>
