@@ -135,19 +135,19 @@ const msi_check_and_format = () => {
     var valid_phones        = true
     var valid_wsp_phones    = true
 
-    if ( !msi_is_valid_phone_list( cellphone_values ) ) {
+    if ( '' != cellphone_values.trim() && !msi_is_valid_phone_list( cellphone_values ) ) {
         valid_cellphones = false
         document.getElementById('txt-mobile-phone').classList.add('error')
     }
-    if ( !msi_is_valid_email_list( email_values ) ) {
+    if ( '' != email_values.trim() && !msi_is_valid_email_list( email_values ) ) {
         valid_emails = false
         document.getElementById('txt-email').classList.add('error')
     }
-    if ( !msi_is_valid_phone_list( phone_values ) ) {
+    if ( '' != phone_values.trim() && !msi_is_valid_phone_list( phone_values ) ) {
         valid_phones = false
         document.getElementById('txt-phone').classList.add('error')
     }
-    if ( !msi_is_valid_phone_list( whatsapp_phones ) ) {
+    if ( '' != whatsapp_phones && !msi_is_valid_phone_list( whatsapp_phones ) ) {
         valid_wsp_phones = false
         document.getElementById('txt-whatsapp').classList.add('error')
     }
