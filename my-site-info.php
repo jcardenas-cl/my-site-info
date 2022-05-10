@@ -37,6 +37,7 @@ if ( ! class_exists( 'My_site_info' ) ) {
 		 */
 		public static function install() {
 			update_option( 'layout_rrss', 'layout-1' );
+			update_option( 'mode_rrss', 'rrss-mode-image' );
 		}
 
 		/**

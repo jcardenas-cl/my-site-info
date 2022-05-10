@@ -8,6 +8,36 @@
         <div class="msi-container">
             <section>
                 <h3><?php _e( 'Redes Sociales', 'my_site_info' ); ?></h3>
+                <div class="rrss-mode-selection">
+                    <div class="label"><?php _e( 'Seleccione el modo en que cargará los iconos', 'my_site_info' ); ?></div>
+                    <label for="rrss-mode-images">
+                        <?php $checked = ( 'rrss-mode-image' == get_option('mode_rrss') ) ? ' checked' : ''; ?>
+                        <input
+                            type="radio"
+                            name="rrss-mode"
+                            id="rrss-mode-images"
+                            class="input-radio rrss-mode-selection"
+                            value="rrss-mode-images" <?php echo $checked; ?> />
+                        <?php _e( 'Mediante imágenes', 'my_site_info' ); ?></label>
+                    <label for="rrss-mode-fonts">
+                    <?php $checked = ( 'rrss-mode-fonts' == get_option('mode_rrss') ) ? ' checked' : ''; ?>
+                        <input
+                            type="radio"
+                            name="rrss-mode"
+                            id="rrss-mode-fonts"
+                            class="input-radio rrss-mode-selection"
+                            value="rrss-mode-fonts" <?php echo $checked; ?> />
+                        <?php _e( 'Mediante fuentes', 'my_site_info' ); ?></label>
+                </div>
+                <?php $display_font_list = ( 'rrss-mode-fonts' == get_option('mode_rrss') ) ? '' : ' no-display'; ?>
+                <div class="fonts-urls<?php echo $display_font_list; ?>" id="fonts-urls">
+                    <div class="label"><?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
+                    <div class="fonts-uploads">
+                        <ul id="fonts-list"></ul>
+                        <div id="add-font-button" class="add-font-button"><?php _e( 'Haga clic aquí para agregar una fuente' ); ?></div>
+                    </div>
+                </div>
+                <h3><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></h3>
                 <ul id="rrss-list">
                 <?php
                 $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
@@ -58,11 +88,21 @@
                     <div><strong><?php _e( 'Seleccione como desea ver la lista de RRSS', 'my_site_info' ); ?></strong></div>
                     <label for="layout-1">
                         <?php $checked = ( 'layout-1' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
-                        <input type="radio" name="rrss-layout" id="layout-1" class="input-radio" value="layout-1" <?php echo $checked; ?> />
+                        <input
+                            type="radio"
+                            name="rrss-layout"
+                            id="layout-1"
+                            class="input-radio"
+                            value="layout-1" <?php echo $checked; ?> />
                         <?php _e( 'Solo iconos', 'my_site_info' ); ?></label>
                     <label for="layout-2">
                     <?php $checked = ( 'layout-2' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
-                        <input type="radio" name="rrss-layout" id="layout-2" class="input-radio" value="layout-2" <?php echo $checked; ?> />
+                        <input
+                            type="radio"
+                            name="rrss-layout"
+                            id="layout-2"
+                            class="input-radio"
+                            value="layout-2" <?php echo $checked; ?> />
                         <?php _e( 'Iconos y nombre', 'my_site_info' ); ?></label>
                 </div>
                 <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_rrss_bar]</i> </div>
@@ -125,7 +165,7 @@
                 <th scope="row"><?php _e( 'Dirección', 'my_site_info' ); ?></th>
                 <td>
                     <?php
-                    wp_editor( get_option('msi_address'), 'txt-address', $settings = array(
+                    wp_editor( get_option('msi_address'), 'txt-address', array(
                         'textarea_rows'	=> '3',
                         'wpautop' 		=> false,
                         'media_buttons'	=> false,
@@ -139,7 +179,7 @@
                 <th scope="row"><?php _e( 'Mapa', 'my_site_info' ); ?></th>
                 <td>
                     <?php
-                    wp_editor( stripslashes(get_option('msi_map')), 'txt-map', $settings = array(
+                    wp_editor( stripslashes(get_option('msi_map')), 'txt-map', array(
                         'textarea_rows'	=> 20,
                         'wpautop' 		=> false,
                         'media_buttons'	=> false,

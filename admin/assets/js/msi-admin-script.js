@@ -177,6 +177,17 @@ const close_row = event => {
 }
 
 /**
+ * Elimina la fila seleccionada de la lista de fuentes a cargar en el sitio.
+ * 
+ * @param {object} event Elemento desde el que se dispara el evento
+ */
+const close_fonts_row = event => {
+    var element = (event.target || event.srcElement)
+    element.closest('li').remove()
+    const rrss_rows = document.querySelectorAll('.font-row').length
+}
+
+/**
  * Agrega un evento clic a todos los botones cerrar, para asignar la funcion a las filas agregadas dinamicamente.
  * Este código solo funcionara sobre elementos que ya esten creados al momento de cargar la pagina y no sobre los creados de manera dinamica.
  */
@@ -264,3 +275,57 @@ const slist = target => {
         };
     }
 }
+
+/**
+ * Según el modo elegido, se cambiarán los campos del formulario para admitir imagenes o colocar la etiqueta del icono para cada red social.
+ * @since 1.1.0
+ */
+const rrss_mode_selection = document.querySelector('.rrss-mode-selection')
+rrss_mode_selection.addEventListener( "change", function( evt ) {
+    const mode = evt.target.value
+    if ( 'rrss-mode-fonts' == mode ) {
+        document.getElementById('fonts-urls').classList.remove('no-display');
+        // TODO
+        // Presentar nuevo campo para url con las fuentes
+        // Cambiar formato de lista con campos
+        // Guardar los datos en una nueva lista o modificar la existente
+    } else {
+        // TODO
+        // Reestablecer funcionamiento a modo de v1.0.0
+        document.getElementById('fonts-urls').classList.add('no-display');
+    }
+})
+
+/**
+ * Crea un nodo li con los elementos necesarios para cargar un archivo de fuente.
+ * @since 1.1.0
+ */
+const add_font = document.getElementById('add-font-button')
+add_font.addEventListener( 'click', function( evt ) {
+    const new_li    = document.createElement('li')
+    const file_cnt  = document.createElement('div')
+    const icon_file = document.createElement('input')
+    const close_cnt = document.createElement('div')
+    const close     = document.createTextNode('X')
+    const url_cnt   = document.createElement('div')
+    const url_text  = document.createTextNode(__('Aquí se mostrará la url de la fuente una vez cargada', 'my_site_info'))
+    const url_hidden= document.createElement('input')
+
+    new_li.classList.add('font-row')
+    file_cnt.classList.add('file')
+    icon_file.setAttribute('type', 'file')
+    icon_file.setAttribute('name', 'font-file')
+    close_cnt.classList.add('close-cnt')
+    close_cnt.onclick = evt => { close_fonts_row( evt ) }
+    url_hidden.setAttribute('type','hidden')
+    url_hidden.setAttribute('name', 'current_font_url[]')
+
+    file_cnt.append(icon_file)
+    close_cnt.append(close)
+    url_cnt.append(url_text)
+    url_cnt.append(url_hidden)
+    new_li.append(file_cnt)
+    new_li.append(close_cnt)
+    new_li.append(url_cnt)
+    document.getElementById('fonts-list').append(new_li)
+})

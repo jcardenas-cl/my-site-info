@@ -27,8 +27,56 @@
     text-align: left;
     font-weight: normal;
 }
+.rrss-mode-selection .label,
+.fonts-urls .label {
+    margin-bottom: 15px;
+}
+.fonts-urls .label {
+    margin-top: 15px;
+}
 .select-rrss-layout {
     margin: 20px 0;
+}
+#fonts-urls {
+    margin: 0 50px;
+}
+#fonts-list {
+    border: 1px solid gray;
+    border-bottom: 0;
+    padding-bottom: 0px;
+    margin-bottom: 0;
+}
+#fonts-list li {
+    border-bottom: 1px solid gray;
+    margin-bottom: 0;
+}
+#fonts-list li:hover {
+    background: #ddd;
+}
+#fonts-list .file,
+#fonts-list .close-cnt {
+    display: inline-block;
+}
+#fonts-list .file {
+    width: 95%;
+}
+#fonts-list .close-cnt {
+    width: 5%;
+    cursor: pointer;
+    text-align: center;
+}
+#fonts-list .close-cnt:hover {
+color: #e75c5c
+}
+#add-font-button {
+    border: 1px solid gray;
+    border-top: 0;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+#add-font-button:hover {background: #b5b5b5;
+    color: white;
 }
 
 #rrss-list {
@@ -36,6 +84,7 @@
     background-color: white;
     border: 1px solid gray;
     border-radius: 5px;
+    margin-top: 15px;
 }
 #rrss-list #empty-rrss-row {
     text-align: center;
