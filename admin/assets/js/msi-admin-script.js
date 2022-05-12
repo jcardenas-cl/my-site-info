@@ -199,6 +199,17 @@ close_row_buttons.forEach( btn_close => {
 })
 
 /**
+ * Agrega un evento clic a todos los botones cerrar, para asignar la funcion a las filas agregadas dinamicamente.
+ * Este código solo funcionara sobre elementos que ya esten creados al momento de cargar la pagina y no sobre los creados de manera dinamica.
+ */
+ const close_font_row_buttons = document.querySelectorAll('.close-font-btn')
+ close_font_row_buttons.forEach( btn_close => {
+     btn_close.addEventListener('click', function( evt ) {
+         close_fonts_row( evt )
+     });
+ })
+
+/**
  * Controlador para agregar un row a la lista de redes sociales, además controla que se muestre u oculte el placeholder mientras la lista esta vacia.
  */
 const add_rrss_button = document.getElementById('btn-add-social-network')
@@ -314,8 +325,8 @@ add_font.addEventListener( 'click', function( evt ) {
     new_li.classList.add('font-row')
     file_cnt.classList.add('file')
     icon_file.setAttribute('type', 'file')
-    icon_file.setAttribute('name', 'font-file')
-    close_cnt.classList.add('close-cnt')
+    icon_file.setAttribute('name', 'font_file[]')
+    close_cnt.classList.add('close-font-btn')
     close_cnt.onclick = evt => { close_fonts_row( evt ) }
     url_hidden.setAttribute('type','hidden')
     url_hidden.setAttribute('name', 'current_font_url[]')

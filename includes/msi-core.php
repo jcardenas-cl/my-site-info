@@ -100,6 +100,43 @@ function collect_and_update_data() {
 
     // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
     if ( isset( $_POST['txt-mobile-phone'] ) ) {
+        // Obtener las rutas de los archivos de fuentes subidos al sitio
+        $sent_url_fonts     = array();
+        $current_fonts_urls = $_POST['current_font_url'];
+        $i                  = 0;
+        foreach ( $current_fonts_urls as $font_url ) {
+            $sent_url_fonts[$i] = $font_url;
+            $i++;
+        }
+
+        // Procesar archivos de fuentes subidos al sistema, y reemplaza url de archivos anteriores en caso de que se suba un nuevo fichero.
+        $font_files = $_FILES['font_file'];
+        $i          = 0;
+        foreach ( $font_files['name'] as $key => $value ) {
+            if ( $font_files['name'][ $key ] ) {
+                $file = array(
+                    'name'      => $font_files['name'][ $key ],
+                    'type'      => $font_files['type'][ $key ],
+                    'tmp_name'  => $font_files['tmp_name'][ $key ],
+                    'error'     => $font_files['error'][ $key ],
+                    'size'      => $font_files['size'][ $key ],
+                );
+        
+                $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
+
+                if ( isset( $upload_result['url'] ) ) {
+                    $sent_url_fonts[$i] = $upload_result['url'];
+                }
+            }
+            $i++;
+        }
+
+        // Filtrar posibles valores vacios
+        $filtered_fonts = filter_valid_values( implode( ',', $sent_url_fonts ) );
+        foreach ( $filtered_fonts as $font_url ) {
+            $registered_fonts[]['url'] = $font_url;
+        }
+        update_option( 'fonts_url', json_encode( $registered_fonts ) );
         
         // Validación teléfono móvil
         $mobile_phones = filter_valid_values( $_POST['txt-mobile-phone'] );

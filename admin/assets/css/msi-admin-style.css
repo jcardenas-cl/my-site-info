@@ -49,23 +49,27 @@
 #fonts-list li {
     border-bottom: 1px solid gray;
     margin-bottom: 0;
+    position: relative;
 }
 #fonts-list li:hover {
     background: #ddd;
 }
 #fonts-list .file,
-#fonts-list .close-cnt {
+#fonts-list .close-font-btn {
     display: inline-block;
 }
 #fonts-list .file {
     width: 95%;
 }
-#fonts-list .close-cnt {
+#fonts-list .close-font-btn {
     width: 5%;
     cursor: pointer;
     text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
-#fonts-list .close-cnt:hover {
+#fonts-list .close-font-btn:hover {
 color: #e75c5c
 }
 #add-font-button {

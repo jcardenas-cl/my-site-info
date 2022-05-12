@@ -33,8 +33,45 @@
                 <div class="fonts-urls<?php echo $display_font_list; ?>" id="fonts-urls">
                     <div class="label"><?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
                     <div class="fonts-uploads">
-                        <ul id="fonts-list"></ul>
+                        <ul id="fonts-list">
+                            <?php
+                            $registered_fonts = json_decode( get_option( 'fonts_url' ) );
+                            if ( 'array' == gettype($registered_fonts) ):
+                                foreach( $registered_fonts as $font_url ):
+                                    ?>
+                                    <li class="font-row">
+                                        <div class="file">
+                                            <input type="file" name="font_file[]"></div>
+                                        <div class="close-font-btn">X</div>
+                                        <div><?php echo $font_url->url; ?>
+                                            <input type="hidden" name="current_font_url[]" value="<?php echo esc_attr( $font_url->url ); ?>"></div>
+                                    </li>
+                                    <?php
+                                endforeach;
+                            endif;
+                            ?>
+                        </ul>
                         <div id="add-font-button" class="add-font-button"><?php _e( 'Haga clic aquí para agregar una fuente' ); ?></div>
+                        <div class="hint"><?php _e( 'Guarde los datos al final del formulario para generar las url de las fuentes' , 'my_site_info' ); ?></div>
+
+                        <div class="label"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo css para que contenga dichas url,
+                        esto puede variar dependiendo de muchos factores como nombre de la fuente, estilo, etc. De cualquier forma, el código a reemplazar será
+                        similar al siguiente.', 'my_site_info' ); ?></div>
+                        <code>
+                        @font-face {
+                            font-family: 'font_name';<br>
+                            src: url('../font/font_name.eot?16052275');<br>
+                            src: url('../font/font_name.eot?16052275#iefix') format('embedded-opentype'),<br>
+                                url('../font/font_name.woff2?16052275') format('woff2'),<br>
+                                url('../font/font_name.woff?16052275') format('woff'),<br>
+                                url('../font/font_name.ttf?16052275') format('truetype'),<br>
+                                url('../font/font_name.svg?16052275#font_name') format('svg');<br>
+                            font-weight: normal;<br>
+                            font-style: normal;<br>
+                            }
+                        </code>
+                        <div class="label"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
+                        vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación.', 'my_site_info' ); ?></div>
                     </div>
                 </div>
                 <h3><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></h3>

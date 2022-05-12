@@ -48,6 +48,16 @@ if ( ! class_exists( 'My_site_info' ) ) {
 		public function init_setup() {
 			include_once plugin_dir_path( __FILE__ ) . 'includes/msi-core.php';
 			include_once plugin_dir_path( __FILE__ ) . 'includes/msi-frontend.php';
+
+			add_filter('upload_mimes', function ($existing_mimes) {
+				$existing_mimes['otf'] = 'application/x-font-otf';
+				$existing_mimes['woff'] = 'application/x-font-woff';
+				$existing_mimes['woff2'] = 'application/x-font-woff';
+				$existing_mimes['ttf'] = 'application/x-font-ttf';
+				$existing_mimes['svg'] = 'image/svg+xml';
+				$existing_mimes['eot'] = 'application/vnd.ms-fontobject';
+				return $existing_mimes;
+			});
 		}
 	
 	}
