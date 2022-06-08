@@ -8,6 +8,8 @@ const  add_new_item_rrss = () => {
     const new_li    = document.createElement('li')
     const move_cnt  = document.createElement('div')
     const move_img  = document.createElement('img')
+    const font_cnt  = document.createElement('div')
+    const font_input= document.createElement('input')
     const icon_cnt  = document.createElement('div')
     const icon_lbl  = document.createElement('label')
     const icon_file = document.createElement('input')
@@ -51,6 +53,13 @@ const  add_new_item_rrss = () => {
     txt_url.setAttribute( 'name', 'rrss_url[]' )
     url_cnt.append(txt_url)
 
+    font_cnt.setAttribute( 'class', 'rrss-font-cnt' )
+    font_input.setAttribute( 'name', 'rrss_font[]' )
+    font_input.setAttribute( 'type', 'text' )
+    font_input.setAttribute( 'class', 'input-font' )
+    font_input.setAttribute( 'placeholder', '<i class="icon-rrss">' )
+    font_cnt.append(font_input)
+
     name_cnt.setAttribute( 'class', 'name-cnt' )
     txt_name.setAttribute( 'type', 'text' )
     txt_name.setAttribute( 'placeholder', 'Nombre' )
@@ -63,6 +72,7 @@ const  add_new_item_rrss = () => {
 
     new_li.append(move_cnt)
     new_li.append(icon_cnt)
+    new_li.append(font_cnt)
     new_li.append(name_cnt)
     new_li.append(url_cnt)
     new_li.append(close_cnt)
@@ -296,14 +306,10 @@ rrss_mode_selection.addEventListener( "change", function( evt ) {
     const mode = evt.target.value
     if ( 'rrss-mode-fonts' == mode ) {
         document.getElementById('fonts-urls').classList.remove('no-display');
-        // TODO
-        // Presentar nuevo campo para url con las fuentes
-        // Cambiar formato de lista con campos
-        // Guardar los datos en una nueva lista o modificar la existente
+        document.getElementById('rrss-list').classList.replace('mode-images', 'mode-fonts')
     } else {
-        // TODO
-        // Reestablecer funcionamiento a modo de v1.0.0
         document.getElementById('fonts-urls').classList.add('no-display');
+        document.getElementById('rrss-list').classList.replace('mode-fonts', 'mode-images')
     }
 })
 

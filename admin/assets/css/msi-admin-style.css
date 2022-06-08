@@ -115,9 +115,15 @@ color: #e75c5c
     cursor: pointer;
     width: 100%;
 }
-#rrss-list .url-cnt,
-#rrss-list .name-cnt {
+#rrss-list.mode-images .url-cnt,
+#rrss-list.mode-images .name-cnt {
     width: 40%;
+}
+#rrss-list.mode-fonts .url-cnt,
+#rrss-list.mode-fonts .name-cnt,
+#rrss-list.mode-fonts .rrss-font-cnt {
+    width: 26.6%;
+    padding: 7px 0;
 }
 #rrss-list .close-btn {
     width: 10%;
@@ -133,6 +139,12 @@ color: #e75c5c
     width: 30px;
     cursor: pointer;
     margin-left: 10px;
+}
+#rrss-list.mode-images .rrss-font-cnt {
+    display: none;
+}
+#rrss-list.mode-fonts .rrss-icon-cnt {
+    display: none;
 }
 
 #btn-add-social-network {

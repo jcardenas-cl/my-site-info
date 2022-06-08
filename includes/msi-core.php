@@ -48,10 +48,12 @@ function collect_and_update_data() {
     }
     $rrss_info  = array();
 
-    if ( isset( $_POST['rrss_url'] ) ) {
+    // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
+    if ( isset( $_POST['txt-mobile-phone'] ) ) {
         $urls           = $_POST['rrss_url'];
         $names          = $_POST['rrss_name'];
         $current_icons  = $_POST['current_icon'];
+        $fonts          = $_POST['rrss_font'];
 
         $i = 0;
         foreach ( $urls as $url ) {
@@ -66,6 +68,11 @@ function collect_and_update_data() {
         $i = 0;
         foreach ( $current_icons as $icon ) {
             $rrss_info[$i]['icon'] = $icon;
+            $i++;
+        }
+        $i = 0;
+        foreach ( $fonts as $font ) {
+            $rrss_info[$i]['font'] = $font;
             $i++;
         }
         
@@ -94,12 +101,7 @@ function collect_and_update_data() {
 
         $rrss_json = json_encode( $rrss_info );
         update_option( 'rrss_options', $rrss_json );
-    } else {
-        update_option( 'rrss_options', null );
-    }
 
-    // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
-    if ( isset( $_POST['txt-mobile-phone'] ) ) {
         // Obtener, validar y registrar archivo css para vincular las fuentes
         if ( $_FILES['fonts_css_file']['size'] > 0 ) {
             $css_font_file = $_FILES['fonts_css_file'];
