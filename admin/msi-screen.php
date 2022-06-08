@@ -99,7 +99,7 @@
                                 </label>
                                 <input type="hidden" name="current_icon[]" value="<?php echo esc_attr( $rrss_row->icon ); ?>"></div>
                             <div class="rrss-font-cnt">
-                                <input type="text" name="rrss_font[]" class="input-font"></div>
+                                <input type="text" name="rrss_font[]" class="input-font" value="<?php echo stripslashes( esc_html($rrss_row->font) ); ?>"></div>
                             <div class="name-cnt">
                                 <input
                                     type="text"
