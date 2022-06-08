@@ -71,19 +71,20 @@
                             }
                         </code>
                         <div class="label"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
-                        vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación.', 'my_site_info' ); ?></div>
+                        vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación. Considere que este archivo reemplazará
+                        al existente si es que ubiera uno, por lo que asegurese de que tambien esta incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
+                        <div>
+                            <input type="file" name="fonts_css_file">
+                            <div><?php echo get_option( 'fonts_css_file' ); ?></div></div>
+                        <div class="hint"><?php _e( 'Seleccione el archivo y guarde este formulario, una vez hecho eso, debe colocar las etiquetas a las redes sociales en el 
+                        listado con las redes sociales mencionado abajo.', 'my_site_info' ); ?></div>
                     </div>
                 </div>
                 <h3><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></h3>
-                <ul id="rrss-list">
-                <?php
-                $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
-                $show_placeholder   = ( 'array' != gettype($rrss_rows) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';
-                    ?>
-                    <li id="empty-rrss-row" class="<?php echo esc_attr($show_placeholder); ?>">
-                        <?php _e( 'Haga clic en "Agregar red social" para iniciar este listado', 'my_site_info' ); ?>
-                    </li>
+                <ul id="rrss-list" class="<?php echo ( 'rrss-mode-image' == get_option('mode_rrss') ) ? 'mode-images' : 'mode-fonts'; ?>">
                     <?php
+                    $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
+                    $show_placeholder   = ( 'array' != gettype($rrss_rows) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';
                     if ( ( 'array' == gettype($rrss_rows) and 0 < count( $rrss_rows ) ) ):
                         foreach( $rrss_rows as $rrss_row ):
                         ?>
@@ -97,6 +98,8 @@
                                     <img src="<?php echo esc_attr( $rrss_row->icon ); ?>">
                                 </label>
                                 <input type="hidden" name="current_icon[]" value="<?php echo esc_attr( $rrss_row->icon ); ?>"></div>
+                            <div class="rrss-font-cnt">
+                                <input type="text" name="rrss_font[]" class="input-font"></div>
                             <div class="name-cnt">
                                 <input
                                     type="text"
@@ -117,6 +120,9 @@
                         endforeach;
                     endif;
                     ?>
+                    <li id="empty-rrss-row" class="<?php echo esc_attr($show_placeholder); ?>">
+                        <?php _e( 'Haga clic en "Agregar red social" para iniciar este listado', 'my_site_info' ); ?>
+                    </li>
                 </ul>
                 <div id="btn-add-social-network">
                     <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/add-icon.svg'; ?>" />

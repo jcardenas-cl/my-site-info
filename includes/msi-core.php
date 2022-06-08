@@ -100,6 +100,19 @@ function collect_and_update_data() {
 
     // Validamos que hayan enviado el formulario a actualizar mediante un campo que siempre este presente.
     if ( isset( $_POST['txt-mobile-phone'] ) ) {
+        // Obtener, validar y registrar archivo css para vincular las fuentes
+        if ( $_FILES['fonts_css_file']['size'] > 0 ) {
+            $css_font_file = $_FILES['fonts_css_file'];
+            $upload_result = wp_handle_upload( $css_font_file, array( 'test_form' => false ) );
+
+            if ( isset( $upload_result['url'] ) ) {
+                update_option( 'fonts_css_file', $upload_result['url'] );
+                echo $upload_result['url'];
+            } else {
+                echo $upload_result['error'];
+            }
+        }
+
         // Obtener las rutas de los archivos de fuentes subidos al sitio
         $sent_url_fonts     = array();
         $current_fonts_urls = $_POST['current_font_url'];
