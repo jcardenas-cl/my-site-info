@@ -168,3 +168,9 @@ add_shortcode( 'msi_show_map', function() {
 
     return $output;
 } );
+
+add_action( 'wp_enqueue_scripts', function() {
+    if ( 'rrss-mode-fonts' == get_option('mode_rrss') ) {
+        wp_enqueue_style( 'msi-font', get_option( 'fonts_css_file' ) );
+    }
+});

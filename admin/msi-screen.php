@@ -11,7 +11,7 @@
                 <div class="rrss-mode-selection">
                     <div class="label"><?php _e( 'Seleccione el modo en que cargará los iconos', 'my_site_info' ); ?></div>
                     <label for="rrss-mode-images">
-                        <?php $checked = ( 'rrss-mode-image' == get_option('mode_rrss') ) ? ' checked' : ''; ?>
+                        <?php $checked = ( 'rrss-mode-images' == get_option('mode_rrss') ) ? ' checked' : ''; ?>
                         <input
                             type="radio"
                             name="rrss-mode"
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <h3><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></h3>
-                <ul id="rrss-list" class="<?php echo ( 'rrss-mode-image' == get_option('mode_rrss') ) ? 'mode-images' : 'mode-fonts'; ?>">
+                <ul id="rrss-list" class="<?php echo ( 'rrss-mode-images' == get_option('mode_rrss') ) ? 'mode-images' : 'mode-fonts'; ?>">
                     <?php
                     $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
                     $show_placeholder   = ( 'array' != gettype($rrss_rows) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';

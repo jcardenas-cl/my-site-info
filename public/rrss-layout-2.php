@@ -20,12 +20,18 @@
             ?>
             <li class="msi-list-item">
                 <a href="<?php echo esc_url($rrss->url) ?>" class="msi-rrss-anchor" target="_blank">
+                    <?php if ( 'rrss-mode-images' == get_option('mode_rrss') ): ?>
                     <img
                         src="<?php echo esc_url( $rrss->icon ); ?>"
                         alt="<?php echo esc_attr( $rrss->name ); ?>"
                         title="<?php echo esc_attr( $rrss->name ); ?>">
                         <span class="rrss-name"><?php echo $rrss->name; ?></span>
                     </a>
+                    <?php
+                    else:
+                        echo stripslashes($rrss->font);
+                    endif;
+                    ?>
             </li>
             <?php
             endforeach;
