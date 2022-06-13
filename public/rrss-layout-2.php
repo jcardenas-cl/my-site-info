@@ -26,12 +26,12 @@
                         alt="<?php echo esc_attr( $rrss->name ); ?>"
                         title="<?php echo esc_attr( $rrss->name ); ?>">
                         <span class="rrss-name"><?php echo $rrss->name; ?></span>
-                    </a>
                     <?php
                     else:
                         echo stripslashes($rrss->font);
                     endif;
                     ?>
+                    </a>
             </li>
             <?php
             endforeach;

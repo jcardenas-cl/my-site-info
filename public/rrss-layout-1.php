@@ -25,12 +25,13 @@
                     <img
                         src="<?php echo esc_url( $rrss->icon ); ?>"
                         alt="<?php echo esc_attr( $rrss->name ); ?>"
-                        title="<?php echo esc_attr( $rrss->name ); ?>"></a>
+                        title="<?php echo esc_attr( $rrss->name ); ?>">
                     <?php
                     else:
                         echo stripslashes($rrss->font);
                     endif;
                     ?>
+                    </a>
             </li>
             <?php
             endforeach;
