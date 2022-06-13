@@ -92,8 +92,10 @@ function collect_and_update_data() {
                 $icon_url               = $urls["url"];
                 $rrss_info[$i]['icon']  = $icon_url;
             } else {
-                // No se subió un icono, asi que solo asignamos la url del icono por defecto
-                $rrss_info[$i]['icon']  = plugins_url() . '/my-site-info/admin/assets/img/image-icon.svg';
+                // No se subió un icono, asi que solo asignamos la url del icono por defecto, en caso de que no haya un icono previamente ajustado
+                if ( '' == trim($rrss_info[$i]['icon']) ) {
+                    $rrss_info[$i]['icon']  = plugins_url() . '/my-site-info/admin/assets/img/image-icon.svg';
+                }
             }
 
             $i++;
