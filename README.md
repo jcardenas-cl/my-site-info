@@ -46,7 +46,7 @@ font-style: normal;
 }
 ```
 ... a algo como esto:
-´´´
+```
 @font-face { font-family: 'font_name';
 src: url('https://mysite.com/wp-content/uploads/2022/06/font_name.eot?16052275');
 src: url('https://mysite.com/wp-content/uploads/2022/06/font_name.eot?16052275#iefix') format('embedded-opentype'),
@@ -57,7 +57,7 @@ url('https://mysite.com/wp-content/uploads/2022/06/font/font_name.svg?16052275#f
 font-weight: normal;
 font-style: normal;
 }
-´´´
+```
 Con las rutas reemplazadas guardarmos el archivo.
 
 #### Subir el archivo CSS
