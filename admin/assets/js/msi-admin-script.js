@@ -1,6 +1,8 @@
 const { __, _x, _n, sprintf } = wp.i18n;
 /**
  * Funcion encargada de agregar una nueva fila con todos sus elementos al listado de redes sociales.
+ * 
+ * @since 1.0.0
  */
 const  add_new_item_rrss = () => {
     const rrss_list = document.getElementById('rrss-list')
@@ -33,12 +35,7 @@ const  add_new_item_rrss = () => {
     icon_file.setAttribute( 'type', 'file' )
     icon_file.setAttribute( 'name', 'rrss_icon[]' )
     icon_file.setAttribute( 'class', 'input-file' )
-    icon_file.onchange = evt => {
-        const [file] = icon_file.files
-        if (file) {
-          icon.src = URL.createObjectURL(file)
-        }
-    }
+    icon_file.onchange = evt => { change_icon_preview( evt ) }
     current_ic.setAttribute( 'type', 'hidden' )
     current_ic.setAttribute( 'name', 'current_icon[]' )
     current_ic.setAttribute( 'value',  msi_data.plugins_url + '/my-site-info/admin/assets/img/image-icon.svg')
@@ -81,6 +78,8 @@ const  add_new_item_rrss = () => {
 
 /**
  * Oculta la fila con el placeholder en el listado de redes sociales
+ * 
+ * @since 1.0.0
  */
 const hide_rrss_row_placeholder = () => {
     document.getElementById('empty-rrss-row').classList.add('no-display')
@@ -88,6 +87,8 @@ const hide_rrss_row_placeholder = () => {
 
 /**
  * Muestra la fila con el placeholder en el listado de redes sociales
+ * 
+ * @since 1.0.0
  */
 const show_rrss_row_placeholder = () => {
     document.getElementById('empty-rrss-row').classList.remove('no-display')
@@ -95,6 +96,8 @@ const show_rrss_row_placeholder = () => {
 
 /**
  * Valida que un string contenga uno o mas correos separados por comas tengan un formato de correo electronico.
+ * 
+ * @since 1.0.0
  * 
  * @param {string} str_emails Cadena con una lista de correos, esta puede estar separada por comas.
  * @return {bool} True de ser valido, false en caso contrario
@@ -115,6 +118,8 @@ const msi_is_valid_email_list = str_emails => {
  * Valida si uno o mas telefonos, separados por coma, tienen el formato valido de número telefonico.
  * Solo se admite el simbolo "+" y números.
  * 
+ * @since 1.0.0
+ * 
  * @param {string} str_phones Cadena con uno o mas teléfonos a validar
  * @returns {bool} True en caso de ser valido, false en caso contrario
  */
@@ -133,6 +138,8 @@ const msi_is_valid_phone_list = str_phones => {
 
 /**
  * Funcion ejecutada al realizar el submit del formulario.
+ * 
+ * @since 1.0.0
  */
 const msi_check_and_format = () => {
     const cellphone_values  = document.getElementById('txt-mobile-phone').value
@@ -184,6 +191,8 @@ const msi_check_and_format = () => {
 /**
  * Elimina la fila seleccionada, disparada desde un evento clic sobre el botón cerrar.
  * 
+ * @since 1.0.0
+ * 
  * @param {object} element Elemento desde que se dispara el evento
  */
 const close_row = event => {
@@ -198,17 +207,37 @@ const close_row = event => {
 /**
  * Elimina la fila seleccionada de la lista de fuentes a cargar en el sitio.
  * 
+ * @since 1.0.0
+ * 
  * @param {object} event Elemento desde el que se dispara el evento
  */
 const close_fonts_row = event => {
     var element = (event.target || event.srcElement)
     element.closest('li').remove()
-    const rrss_rows = document.querySelectorAll('.font-row').length
+}
+
+/**
+ * Cambia la previsualizacion del icono al ser seleccionado para subir, para filas que ya hayan sido registradas previamente y creadas de manera dinamica.
+ * 
+ * @since 1.1.0
+ * @param {event} event Evento onchange
+ */
+const change_icon_preview = event => {
+    var element = (event.target || event.srcElement)
+    var icon    = element.parentNode.querySelector('img')
+    
+    const [file] = element.files
+    if (file) {
+        icon.src = URL.createObjectURL(file)
+    }
+    
 }
 
 /**
  * Agrega un evento clic a todos los botones cerrar, para asignar la funcion a las filas agregadas dinamicamente.
  * Este código solo funcionara sobre elementos que ya esten creados al momento de cargar la pagina y no sobre los creados de manera dinamica.
+ * 
+ * @since 1.0.0
  */
 const close_row_buttons = document.querySelectorAll('.close-btn')
 close_row_buttons.forEach( btn_close => {
@@ -220,6 +249,8 @@ close_row_buttons.forEach( btn_close => {
 /**
  * Agrega un evento clic a todos los botones cerrar, para asignar la funcion a las filas agregadas dinamicamente.
  * Este código solo funcionara sobre elementos que ya esten creados al momento de cargar la pagina y no sobre los creados de manera dinamica.
+ * 
+ * @since 1.0.0
  */
  const close_font_row_buttons = document.querySelectorAll('.close-font-btn')
  close_font_row_buttons.forEach( btn_close => {
@@ -229,7 +260,22 @@ close_row_buttons.forEach( btn_close => {
  })
 
 /**
+ * Agrega un evento onchange a los elementos del tipo input file que ya fueron creados anteriormente.
+ * Permite cambiar la previsualización del icono al seleccionarlo para ser subido
+ * 
+ * @since 1.0.0
+ */
+const rrss_icon_files = document.querySelectorAll('.input-file')
+rrss_icon_files.forEach( icon_file => {
+    icon_file.addEventListener( 'change', function ( evt ) {
+        change_icon_preview( evt )
+    })
+})
+
+/**
  * Controlador para agregar un row a la lista de redes sociales, además controla que se muestre u oculte el placeholder mientras la lista esta vacia.
+ * 
+ * @since 1.0.0
  */
 const add_rrss_button = document.getElementById('btn-add-social-network')
 add_rrss_button.addEventListener( 'click', function( evt ) {
@@ -308,6 +354,7 @@ const slist = target => {
 
 /**
  * Según el modo elegido, se cambiarán los campos del formulario para admitir imagenes o colocar la etiqueta del icono para cada red social.
+ * 
  * @since 1.1.0
  */
 const rrss_mode_selection = document.querySelector('.rrss-mode-selection')
@@ -324,6 +371,7 @@ rrss_mode_selection.addEventListener( "change", function( evt ) {
 
 /**
  * Crea un nodo li con los elementos necesarios para cargar un archivo de fuente.
+ * 
  * @since 1.1.0
  */
 const add_font = document.getElementById('add-font-button')
