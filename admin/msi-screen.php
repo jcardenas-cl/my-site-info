@@ -33,6 +33,7 @@
                 <div class="fonts-urls<?php echo $display_font_list; ?>" id="fonts-urls">
                     <div class="label"><?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
                     <div class="fonts-uploads">
+                        <strong><?php _e( 'Archivos de fuente', 'my_site_info' ); ?></strong>
                         <ul id="fonts-list">
                             <?php
                             $registered_fonts = json_decode( get_option( 'fonts_url' ) );
@@ -74,6 +75,7 @@
                         vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación. Considere que este archivo reemplazará
                         al existente si es que ubiera uno, por lo que asegurese de que tambien esta incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
                         <div>
+                            <div><strong><?php _e( 'Archivo CSS', 'my_site_info' ); ?></strong></div>
                             <input type="file" name="fonts_css_file">
                             <div><?php echo get_option( 'fonts_css_file' ); ?></div></div>
                         <div class="hint"><?php _e( 'Seleccione el archivo y guarde este formulario, una vez hecho eso, debe colocar las etiquetas a las redes sociales en el 
@@ -99,7 +101,12 @@
                                 </label>
                                 <input type="hidden" name="current_icon[]" value="<?php echo esc_attr( $rrss_row->icon ); ?>"></div>
                             <div class="rrss-font-cnt">
-                                <input type="text" name="rrss_font[]" class="input-font" value="<?php echo stripslashes( esc_html($rrss_row->font) ); ?>"></div>
+                                <input
+                                    type="text"
+                                    name="rrss_font[]"
+                                    class="input-font"
+                                    placeholder='<i class="icon-rrss"></i>'
+                                    value="<?php echo stripslashes( esc_html($rrss_row->font) ); ?>"></div>
                             <div class="name-cnt">
                                 <input
                                     type="text"

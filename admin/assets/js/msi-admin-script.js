@@ -54,7 +54,7 @@ const  add_new_item_rrss = () => {
     font_input.setAttribute( 'name', 'rrss_font[]' )
     font_input.setAttribute( 'type', 'text' )
     font_input.setAttribute( 'class', 'input-font' )
-    font_input.setAttribute( 'placeholder', '<i class="icon-rrss">' )
+    font_input.setAttribute( 'placeholder', '<i class="icon-rrss"></i>' )
     font_cnt.append(font_input)
 
     name_cnt.setAttribute( 'class', 'name-cnt' )
