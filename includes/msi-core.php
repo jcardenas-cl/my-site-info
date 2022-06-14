@@ -284,11 +284,11 @@ function msi_is_valid_phone_number_format( $phone ) {
 function msi_admin_enqueue_scripts_and_styles() {
     wp_enqueue_style(
         'msi-style',
-        plugins_url() . '/my-site-info/admin/assets/css/msi-admin-style.css'
+        plugins_url() . '/my-site-info/admin/assets/css/msi-admin-style.min.css'
     );
     wp_enqueue_script(
         'msi-script',
-        plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.js',
+        plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.min.js',
         array( 'wp-i18n' ),
         time(),
         true
@@ -317,7 +317,7 @@ add_action( 'admin_enqueue_scripts', 'msi_admin_enqueue_scripts_and_styles' );
 function msi_enqueue_public_scripts_and_styles() {
     wp_enqueue_style(
         'msi-style',
-        plugins_url() . '/my-site-info/public/assets/css/msi-style.css'
+        plugins_url() . '/my-site-info/public/assets/css/msi-style.min.css'
     );
 }
 add_action( 'wp_enqueue_scripts', 'msi_enqueue_public_scripts_and_styles' );
