@@ -276,14 +276,11 @@ rrss_icon_files.forEach( icon_file => {
  * Controlador para agregar un row a la lista de redes sociales, además controla que se muestre u oculte el placeholder mientras la lista esta vacia.
  * 
  * @since 1.0.0
+ * @update Desde la version 1.2.0 solo se encarga de agregar una nueva fila e reiniciar slist, ya no se oculta el placeholder para agregar una nueva fila por cambios de diseño.
  */
 const add_rrss_button = document.getElementById('btn-add-social-network')
 add_rrss_button.addEventListener( 'click', function( evt ) {
     add_new_item_rrss()
-    const rrss_rows = document.querySelectorAll('.rrss-row').length
-    if ( rrss_rows > 0 ) {
-        hide_rrss_row_placeholder()
-    }
     slist(document.getElementById("rrss-list"))
 });
 
@@ -296,7 +293,10 @@ const slist = target => {
     let items = target.getElementsByTagName("li"), current = null;
 
     for (let i of items) {
-        i.draggable = true;
+        // Mod para que ciertos elementos no sean arrastrables
+        if ( 'false' != i.getAttribute('draggable') ) {
+            i.draggable = true;
+        }
 
         i.ondragstart = (ev) => {
             current = i;
@@ -332,7 +332,8 @@ const slist = target => {
 
         i.ondrop = (evt) => {
             evt.preventDefault();
-            if (i != current) {
+            // Mod para que se pueda soltar solo en elementos que también sean arrastrables
+            if ( i != current && i.getAttribute('draggable') == 'true' ) {
                 let currentpos = 0, droppedpos = 0;
                 for (let it = 0; it < items.length; it++) {
                     if (current == items[it]) {

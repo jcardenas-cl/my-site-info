@@ -8,8 +8,26 @@
     font-size: 0.9em;
 }
 .msi-container {
-    width: 700px;
-    margin: auto auto 50px auto;
+    width: 800px;
+    margin: 50px auto;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 20px;
+}
+.section-title {
+    font-size: 1.5em;
+    font-weight: 360;
+    margin-bottom: 0.5em;
+}
+.msi-notice {
+    background-color: #e5f3e5;
+    border: 1px solid #5f9d5f;
+    padding: 5px;
+    text-align: center;
+}
+.fonts-uploads {
+    margin-top: 15px;
 }
 .col-50-100 {
     display: inline-block;
@@ -29,12 +47,18 @@
 }
 .rrss-mode-selection .label,
 .fonts-urls .label {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+}
+.rrss-mode-selection label,
+.select-rrss-layout label {
+    display: inline-block;
+    width: 49.5%;
 }
 .fonts-urls .label {
     margin-top: 15px;
 }
-.select-rrss-layout {
+.select-rrss-layout,
+.rrss-mode-selection {
     margin: 20px 0;
 }
 #fonts-urls {
@@ -85,23 +109,27 @@ color: #e75c5c
 
 #rrss-list {
     width: 100%;
-    background-color: white;
-    border: 1px solid gray;
-    border-radius: 5px;
-    margin-top: 15px;
+    border: 1px solid #c9c9c9;
+    margin-top: 5px;
 }
 #rrss-list #empty-rrss-row {
     text-align: center;
     padding: 5px;
+    background-color: #eff4f9;
+}
+#rrss-list #empty-rrss-row:hover {
+    background-color: #d0e4f7;
 }
 #rrss-list .input-file {
     display: none;
 }
 #rrss-list li {
-    border-bottom: 1px solid gray;
     margin-bottom: 0;
 }
-#rrss-list li div {
+#rrss-list li.rrss-row.rrss-row {
+    border-bottom: 1px solid #c9c9c9;
+}
+#rrss-list li.rrss-row div {
     display: table-cell;
 }
 #rrss-list .handler-cnt,
@@ -109,6 +137,13 @@ color: #e75c5c
     width: 5%;
     text-align: center;
     padding: 7px;
+}
+#rrss-list .handler-cnt {
+    background-color: #f7f4f4;
+    cursor: move;
+    font-size: 1.4em;
+    color: #b3b3b3;
+    font-weight: 450;
 }
 #rrss-list .handler-cnt img,
 #rrss-list .rrss-icon-cnt img {
@@ -148,11 +183,8 @@ color: #e75c5c
 }
 
 #btn-add-social-network {
-    color: gray;
     cursor: pointer;
-    display: flex;
     align-items: center;
-    margin-top: 10px;
 }
 #btn-add-social-network img {
     width: 30px;

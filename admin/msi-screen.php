@@ -7,7 +7,28 @@
     <form action="" method="post" name="msi-form" onsubmit="return msi_check_and_format()" enctype="multipart/form-data">
         <div class="msi-container">
             <section>
-                <h3><?php _e( 'Redes Sociales', 'my_site_info' ); ?></h3>
+                <div class="section-title"><?php _e( 'Redes Sociales', 'my_site_info' ); ?></div>
+                <div class="select-rrss-layout">
+                    <div class="label"><?php _e( 'Seleccione como desea ver la lista de RRSS', 'my_site_info' ); ?></div>
+                    <label for="layout-1">
+                        <?php $checked = ( 'layout-1' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
+                        <input
+                            type="radio"
+                            name="rrss-layout"
+                            id="layout-1"
+                            class="input-radio"
+                            value="layout-1" <?php echo $checked; ?> />
+                        <?php _e( 'Solo iconos', 'my_site_info' ); ?></label>
+                    <label for="layout-2">
+                    <?php $checked = ( 'layout-2' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
+                        <input
+                            type="radio"
+                            name="rrss-layout"
+                            id="layout-2"
+                            class="input-radio"
+                            value="layout-2" <?php echo $checked; ?> />
+                        <?php _e( 'Iconos y nombre', 'my_site_info' ); ?></label>
+                </div>
                 <div class="rrss-mode-selection">
                     <div class="label"><?php _e( 'Seleccione el modo en que cargará los iconos', 'my_site_info' ); ?></div>
                     <label for="rrss-mode-images">
@@ -31,7 +52,8 @@
                 </div>
                 <?php $display_font_list = ( 'rrss-mode-fonts' == get_option('mode_rrss') ) ? '' : ' no-display'; ?>
                 <div class="fonts-urls<?php echo $display_font_list; ?>" id="fonts-urls">
-                    <div class="label"><?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
+                    <div class="msi-notice">
+                        <?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
                     <div class="fonts-uploads">
                         <strong><?php _e( 'Archivos de fuente', 'my_site_info' ); ?></strong>
                         <ul id="fonts-list">
@@ -53,7 +75,6 @@
                             ?>
                         </ul>
                         <div id="add-font-button" class="add-font-button"><?php _e( 'Haga clic aquí para agregar una fuente' ); ?></div>
-                        <div class="hint"><?php _e( 'Guarde los datos al final del formulario para generar las url de las fuentes' , 'my_site_info' ); ?></div>
 
                         <div class="label"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo css para que contenga dichas url,
                         esto puede variar dependiendo de muchos factores como nombre de la fuente, estilo, etc. De cualquier forma, el código a reemplazar será
@@ -82,18 +103,17 @@
                         listado con las redes sociales mencionado abajo.', 'my_site_info' ); ?></div>
                     </div>
                 </div>
-                <h3><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></h3>
+                <div class="label"><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></div>
                 <ul id="rrss-list" class="<?php echo ( 'rrss-mode-images' == get_option('mode_rrss') ) ? 'mode-images' : 'mode-fonts'; ?>">
                     <?php
-                    $rrss_rows          = json_decode( get_option( 'rrss_options' ) );
-                    $show_placeholder   = ( 'array' != gettype($rrss_rows) or 0 == count( $rrss_rows ) ) ? '' : 'no-display';
+                    $rrss_rows  = json_decode( get_option( 'rrss_options' ) );
                     if ( ( 'array' == gettype($rrss_rows) and 0 < count( $rrss_rows ) ) ):
+                        $i = 1;
                         foreach( $rrss_rows as $rrss_row ):
                         ?>
                         <li class="rrss-row">
                             <div class="handler-cnt">
-                                <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/move-icon.svg'; ?>">
-                            </div>
+                            <?php echo $i; ?></div>
                             <div class="rrss-icon-cnt">
                                 <label>
                                     <input type="file" name="rrss_icon[]" class="input-file">
@@ -124,121 +144,101 @@
                             <div class="close-btn">X</div>
                         </li>
                         <?php
-                        endforeach;
+                        $i++; endforeach;
                     endif;
                     ?>
-                    <li id="empty-rrss-row" class="<?php echo esc_attr($show_placeholder); ?>">
-                        <?php _e( 'Haga clic en "Agregar red social" para iniciar este listado', 'my_site_info' ); ?>
+                    <li id="empty-rrss-row" draggable="false">
+                        <div id="btn-add-social-network"><?php _e( 'Haga clic para agregar un nuevo elemento', 'my_site_info' ); ?></div>
                     </li>
                 </ul>
-                <div id="btn-add-social-network">
-                    <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/add-icon.svg'; ?>" />
-                    <?php _e( 'Agregar red social', 'my_site_info' ); ?></div>
-                <div class="select-rrss-layout">
-                    <div><strong><?php _e( 'Seleccione como desea ver la lista de RRSS', 'my_site_info' ); ?></strong></div>
-                    <label for="layout-1">
-                        <?php $checked = ( 'layout-1' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
-                        <input
-                            type="radio"
-                            name="rrss-layout"
-                            id="layout-1"
-                            class="input-radio"
-                            value="layout-1" <?php echo $checked; ?> />
-                        <?php _e( 'Solo iconos', 'my_site_info' ); ?></label>
-                    <label for="layout-2">
-                    <?php $checked = ( 'layout-2' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
-                        <input
-                            type="radio"
-                            name="rrss-layout"
-                            id="layout-2"
-                            class="input-radio"
-                            value="layout-2" <?php echo $checked; ?> />
-                        <?php _e( 'Iconos y nombre', 'my_site_info' ); ?></label>
-                </div>
                 <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_rrss_bar]</i> </div>
             </section>
         </div>
 
         <div class="msi-container">
-            <h3><?php _e( 'Contacto', 'my_site_info' ); ?></h3>
-            <table class="msi-form-table">
-                <tr valign="top">
-                <th scope="row"><?php _e( 'Celular', 'my_site_info' ); ?></th>
-                <td><input
-                    type="text"
-                    name="txt-mobile-phone"
-                    id="txt-mobile-phone"
-                    class="input-text"
-                    value="<?php echo esc_attr( get_option('msi_mobile_phone') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_mobile_phone_bar]</i></span></td>
-                </tr>
-                
-                <tr valign="top">
-                <th scope="row"><?php _e( 'Telefono', 'my_site_info' ); ?></th>
-                <td><input
-                    type="text"
-                    name="txt-phone"
-                    id="txt-phone"
-                    class="input-text"
-                    value="<?php echo esc_attr( get_option('msi_phone') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_phone_bar]</i></span></td>
-                </tr>
-                
-                <tr valign="top">
-                <th scope="row"><?php _e( 'Correo', 'my_site_info' ); ?></th>
-                <td><input
-                    type="text"
-                    name="txt-email"
-                    id="txt-email"
-                    class="input-text"
-                    value="<?php echo esc_attr( get_option('msi_email') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_email_bar]</i></span></td>
-                </tr>
+            <section>
+                <div class="section-title"><?php _e( 'Contacto', 'my_site_info' ); ?></div>
+                <table class="msi-form-table">
+                    <tr valign="top">
+                    <th scope="row"><?php _e( 'Celular', 'my_site_info' ); ?></th>
+                    <td><input
+                        type="text"
+                        name="txt-mobile-phone"
+                        id="txt-mobile-phone"
+                        class="input-text"
+                        value="<?php echo esc_attr( get_option('msi_mobile_phone') ); ?>" />
+                        <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_mobile_phone_bar]</i></span></td>
+                    </tr>
+                    
+                    <tr valign="top">
+                    <th scope="row"><?php _e( 'Telefono', 'my_site_info' ); ?></th>
+                    <td><input
+                        type="text"
+                        name="txt-phone"
+                        id="txt-phone"
+                        class="input-text"
+                        value="<?php echo esc_attr( get_option('msi_phone') ); ?>" />
+                        <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_phone_bar]</i></span></td>
+                    </tr>
+                    
+                    <tr valign="top">
+                    <th scope="row"><?php _e( 'Correo', 'my_site_info' ); ?></th>
+                    <td><input
+                        type="text"
+                        name="txt-email"
+                        id="txt-email"
+                        class="input-text"
+                        value="<?php echo esc_attr( get_option('msi_email') ); ?>" />
+                        <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_email_bar]</i></span></td>
+                    </tr>
 
-                <tr valign="top">
-                <th scope="row"><?php _e( 'Whatsapp', 'my_site_info' ); ?></th>
-                <td><input
-                    type="text"
-                    name="txt-whatsapp"
-                    id="txt-whatsapp"
-                    class="input-text"
-                    value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" />
-                    <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_whatsapp_bar]</i></span></td>
-                </tr>
-            </table>
+                    <tr valign="top">
+                    <th scope="row"><?php _e( 'Whatsapp', 'my_site_info' ); ?></th>
+                    <td><input
+                        type="text"
+                        name="txt-whatsapp"
+                        id="txt-whatsapp"
+                        class="input-text"
+                        value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" />
+                        <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_whatsapp_bar]</i></span></td>
+                    </tr>
+                </table>
+            </section>
         </div>
 
         <div class="msi-container">
-            <h3><?php _e( 'Ubicación', 'my_site_info' ); ?></h3>
-            <table class="msi-form-table">
-                <tr valign="top">
-                <th scope="row"><?php _e( 'Dirección', 'my_site_info' ); ?></th>
-                <td>
-                    <?php
-                    wp_editor( get_option('msi_address'), 'txt-address', array(
-                        'textarea_rows'	=> '3',
-                        'wpautop' 		=> false,
-                        'media_buttons'	=> false,
-                    ) );
-                    ?>
-                    <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_address]</i> </div>
-                </td>
-                </tr>
-                
-                <tr valign="top">
-                <th scope="row"><?php _e( 'Mapa', 'my_site_info' ); ?></th>
-                <td>
-                    <?php
-                    wp_editor( stripslashes(get_option('msi_map')), 'txt-map', array(
-                        'textarea_rows'	=> 20,
-                        'wpautop' 		=> false,
-                        'media_buttons'	=> false,
-                    ) );
-                    ?>
-                    <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_map]</i> </div>
-                </td>
-                </tr>
-            </table>
+            <section>
+                <div class="section-title"><?php _e( 'Ubicación', 'my_site_info' ); ?></div>
+                <table class="msi-form-table">
+                    <tr valign="top">
+                    <th scope="row"><?php _e( 'Dirección', 'my_site_info' ); ?></th>
+                    <td>
+                        <?php
+                        wp_editor( get_option('msi_address'), 'txt-address', array(
+                            'textarea_rows'	=> '3',
+                            'wpautop' 		=> false,
+                            'media_buttons'	=> false,
+                        ) );
+                        ?>
+                        <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_address]</i> </div>
+                    </td>
+                    </tr>
+                    
+                    <tr valign="top">
+                    <th scope="row"><?php _e( 'Mapa', 'my_site_info' ); ?></th>
+                    <td>
+                        <?php
+                        wp_editor( stripslashes(get_option('msi_map')), 'txt-map', array(
+                            'textarea_rows'	=> 20,
+                            'wpautop' 		=> false,
+                            'media_buttons'	=> false,
+                        ) );
+                        ?>
+                        <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_map]</i> </div>
+                    </td>
+                    </tr>
+                </table>
+            </section>
         </div>
 
         <?php submit_button(__('Guardar', 'my_site_info'), 'primary'); ?>
