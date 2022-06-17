@@ -9,7 +9,7 @@ const  add_new_item_rrss = () => {
 
     const new_li    = document.createElement('li')
     const move_cnt  = document.createElement('div')
-    const move_img  = document.createElement('img')
+    
     const font_cnt  = document.createElement('div')
     const font_input= document.createElement('input')
     const icon_cnt  = document.createElement('div')
@@ -27,8 +27,7 @@ const  add_new_item_rrss = () => {
     new_li.setAttribute( 'class', 'rrss-row' )
 
     move_cnt.setAttribute( 'class', 'handler-cnt' )
-    move_img.setAttribute( 'src', msi_data.plugins_url + '/my-site-info/admin/assets/img/move-icon.svg')
-    move_cnt.append(move_img)
+    move_cnt.innerHTML = rrss_list.getElementsByTagName('li').length + 1
 
     icon_cnt.setAttribute( 'class', 'rrss-icon-cnt' )
     icon.setAttribute( 'src', msi_data.plugins_url + '/my-site-info/admin/assets/img/image-icon.svg')
@@ -189,7 +188,7 @@ const msi_check_and_format = () => {
 }
 
 /**
- * Elimina la fila seleccionada, disparada desde un evento clic sobre el botón cerrar.
+ * Elimina la fila seleccionada en lista de redes sociales, disparada desde un evento clic sobre el botón cerrar.
  * 
  * @since 1.0.0
  * 
@@ -198,10 +197,7 @@ const msi_check_and_format = () => {
 const close_row = event => {
     var element = (event.target || event.srcElement)
     element.closest('li').remove()
-    const rrss_rows = document.querySelectorAll('.rrss-row').length
-    if ( rrss_rows == 0 ) {
-        show_rrss_row_placeholder()
-    }
+    reindex_rrss_list()
 }
 
 /**
@@ -231,6 +227,20 @@ const change_icon_preview = event => {
         icon.src = URL.createObjectURL(file)
     }
     
+}
+
+/**
+ * Vuelve a asignar el número de red social cuando se reordena por interacción del usuario
+ * 
+ * @since 1.2.0
+ */
+const reindex_rrss_list = () => {
+    let i = 1
+    const rrss_list_li = document.getElementById('rrss-list').querySelectorAll('li')
+    rrss_list_li.forEach( element => {
+        element.querySelector('.handler-cnt').innerHTML = i
+        i++
+    });
 }
 
 /**
@@ -349,6 +359,8 @@ const slist = target => {
                     i.parentNode.insertBefore(current, i);
                 }
             }
+
+            reindex_rrss_list()
         };
     }
 }
