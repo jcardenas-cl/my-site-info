@@ -362,10 +362,10 @@ const rrss_mode_selection = document.querySelector('.rrss-mode-selection')
 rrss_mode_selection.addEventListener( "change", function( evt ) {
     const mode = evt.target.value
     if ( 'rrss-mode-fonts' == mode ) {
-        document.getElementById('fonts-urls').classList.remove('no-display');
+        document.getElementById('fonts-urls-section').classList.remove('no-display');
         document.getElementById('rrss-list').classList.replace('mode-images', 'mode-fonts')
     } else {
-        document.getElementById('fonts-urls').classList.add('no-display');
+        document.getElementById('fonts-urls-section').classList.add('no-display');
         document.getElementById('rrss-list').classList.replace('mode-fonts', 'mode-images')
     }
 })
@@ -374,7 +374,9 @@ rrss_mode_selection.addEventListener( "change", function( evt ) {
  * Crea un nodo li con los elementos necesarios para cargar un archivo de fuente.
  * 
  * @since 1.1.0
+ * @deprecated Desde la version 1.2.0 se usa la mecanica de arrastre
  */
+/*
 const add_font = document.getElementById('add-font-button')
 add_font.addEventListener( 'click', function( evt ) {
     const new_li    = document.createElement('li')
@@ -403,4 +405,21 @@ add_font.addEventListener( 'click', function( evt ) {
     new_li.append(close_cnt)
     new_li.append(url_cnt)
     document.getElementById('fonts-list').append(new_li)
+})
+*/
+/**
+ * Controlador para ocultar o mostrar informacion en bloques tipo acordión
+ * 
+ * @since 1.2.0
+ */
+const show_toggle_triggers = document.querySelectorAll('.show-toggle')
+show_toggle_triggers.forEach( btn_trigger => {
+    btn_trigger.addEventListener('click', function() {
+        const root = btn_trigger.parentNode
+        if ( root.classList.contains('msi-hidden') ) {
+            root.classList.replace( 'msi-hidden', 'msi-display' )
+        } else {
+            root.classList.replace( 'msi-display', 'msi-hidden' )
+        }
+    });
 })

@@ -51,11 +51,12 @@
                         <?php _e( 'Mediante fuentes', 'my_site_info' ); ?></label>
                 </div>
                 <?php $display_font_list = ( 'rrss-mode-fonts' == get_option('mode_rrss') ) ? '' : ' no-display'; ?>
-                <div class="fonts-urls<?php echo $display_font_list; ?>" id="fonts-urls">
+                <div class="mb-15 fonts-urls-section<?php echo $display_font_list; ?>" id="fonts-urls-section">
                     <div class="msi-notice">
                         <?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
                     <div class="fonts-uploads">
                         <strong><?php _e( 'Archivos de fuente', 'my_site_info' ); ?></strong>
+                        <!--
                         <ul id="fonts-list">
                             <?php
                             $registered_fonts = json_decode( get_option( 'fonts_url' ) );
@@ -75,82 +76,72 @@
                             ?>
                         </ul>
                         <div id="add-font-button" class="add-font-button"><?php _e( 'Haga clic aquí para agregar una fuente' ); ?></div>
+                        -->
+                        <div id="upload-fonts-container" class="font-upload-section">
+                            <img class="upload-icon" src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>" alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
+                            <div class="upload-text"><?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?></div>
+                        </div>
 
-                        <div class="label"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo css para que contenga dichas url,
+                        <div class="font-urls-section accordion msi-hidden">
+                            <div class="show-toggle"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
+                            <div class="fonts-urls content">
+                                <?php
+                                $registered_fonts = json_decode( get_option( 'fonts_url' ) );
+                                if ( 'array' == gettype($registered_fonts) ):
+                                    foreach( $registered_fonts as $font_url ):
+                                        ?>
+                                        <div class="font-row">
+                                            <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/copy-icon.svg'; ?>" alt="<?php _e( 'Copiar', 'my_site_info' ); ?>">
+                                            <input type="url" value="<?php echo $font_url->url; ?>" />
+                                        </div>
+                                        <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="label mt-10"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo css para que contenga dichas url,
                         esto puede variar dependiendo de muchos factores como nombre de la fuente, estilo, etc. De cualquier forma, el código a reemplazar será
                         similar al siguiente.', 'my_site_info' ); ?></div>
-                        <code>
-                        @font-face {
-                            font-family: 'font_name';<br>
-                            src: url('../font/font_name.eot?16052275');<br>
-                            src: url('../font/font_name.eot?16052275#iefix') format('embedded-opentype'),<br>
-                                url('../font/font_name.woff2?16052275') format('woff2'),<br>
-                                url('../font/font_name.woff?16052275') format('woff'),<br>
-                                url('../font/font_name.ttf?16052275') format('truetype'),<br>
-                                url('../font/font_name.svg?16052275#font_name') format('svg');<br>
-                            font-weight: normal;<br>
-                            font-style: normal;<br>
-                            }
-                        </code>
-                        <div class="label"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
+                        <div class="css-example-section accordion msi-hidden mt-15">
+                            <div class="show-toggle"><?php _e( 'Mostrar Ejemplo', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
+                            <div class="content">
+                                <code>
+                                @font-face {
+                                    font-family: 'font_name';<br>
+                                    src: url('../font/font_name.eot?16052275');<br>
+                                    src: url('../font/font_name.eot?16052275#iefix') format('embedded-opentype'),<br>
+                                        url('../font/font_name.woff2?16052275') format('woff2'),<br>
+                                        url('../font/font_name.woff?16052275') format('woff'),<br>
+                                        url('../font/font_name.ttf?16052275') format('truetype'),<br>
+                                        url('../font/font_name.svg?16052275#font_name') format('svg');<br>
+                                    font-weight: normal;<br>
+                                    font-style: normal;<br>
+                                    }
+                                </code>
+                            </div>
+                        </div>
+                        <div class="label mt-10 mb-15"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
                         vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación. Considere que este archivo reemplazará
                         al existente si es que ubiera uno, por lo que asegurese de que tambien esta incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
                         <div>
                             <div><strong><?php _e( 'Archivo CSS', 'my_site_info' ); ?></strong></div>
-                            <input type="file" name="fonts_css_file">
-                            <div><?php echo get_option( 'fonts_css_file' ); ?></div></div>
-                        <div class="hint"><?php _e( 'Seleccione el archivo y guarde este formulario, una vez hecho eso, debe colocar las etiquetas a las redes sociales en el 
-                        listado con las redes sociales mencionado abajo.', 'my_site_info' ); ?></div>
+                            <div id="upload-css-file-container" class="font-upload-section">
+                                <img class="upload-icon" src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>" alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
+                                <div class="upload-text"><?php _e( 'Arrastra o selecciona el archivo css', 'my_site_info' ); ?></div>
+                            </div>
+                            <div class="accordion msi-hidden">
+                                <div class="show-toggle mt-15"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
+                                <div class="content">
+                                    <?php echo get_option( 'fonts_css_file' ); ?></div>
+                                </div>
+                            </div>
                     </div>
                 </div>
                 <div class="label"><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></div>
-                <ul id="rrss-list" class="<?php echo ( 'rrss-mode-images' == get_option('mode_rrss') ) ? 'mode-images' : 'mode-fonts'; ?>">
-                    <?php
-                    $rrss_rows  = json_decode( get_option( 'rrss_options' ) );
-                    if ( ( 'array' == gettype($rrss_rows) and 0 < count( $rrss_rows ) ) ):
-                        $i = 1;
-                        foreach( $rrss_rows as $rrss_row ):
-                        ?>
-                        <li class="rrss-row">
-                            <div class="handler-cnt">
-                            <?php echo $i; ?></div>
-                            <div class="rrss-icon-cnt">
-                                <label>
-                                    <input type="file" name="rrss_icon[]" class="input-file">
-                                    <img src="<?php echo esc_attr( $rrss_row->icon ); ?>">
-                                </label>
-                                <input type="hidden" name="current_icon[]" value="<?php echo esc_attr( $rrss_row->icon ); ?>"></div>
-                            <div class="rrss-font-cnt">
-                                <input
-                                    type="text"
-                                    name="rrss_font[]"
-                                    class="input-font"
-                                    placeholder='<i class="icon-rrss"></i>'
-                                    value="<?php echo stripslashes( esc_html($rrss_row->font) ); ?>"></div>
-                            <div class="name-cnt">
-                                <input
-                                    type="text"
-                                    placeholder="Nombre"
-                                    name="rrss_name[]"
-                                    class="input-text"
-                                    value="<?php echo esc_attr( $rrss_row->name ); ?>"></div>
-                            <div class="url-cnt">
-                                <input
-                                    type="url"
-                                    placeholder="Url"
-                                    name="rrss_url[]"
-                                    class="input-text"
-                                    value="<?php echo esc_attr( $rrss_row->url ); ?>"></div>
-                            <div class="close-btn">X</div>
-                        </li>
-                        <?php
-                        $i++; endforeach;
-                    endif;
-                    ?>
-                    <li id="empty-rrss-row" draggable="false">
-                        <div id="btn-add-social-network"><?php _e( 'Haga clic para agregar un nuevo elemento', 'my_site_info' ); ?></div>
-                    </li>
-                </ul>
+                <?php require 'fragment-rrss-list.php'; ?>
+                <div id="btn-add-social-network"><?php _e( 'Haga clic para agregar un nuevo elemento', 'my_site_info' ); ?></div>
                 <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_rrss_bar]</i> </div>
             </section>
         </div>
@@ -158,86 +149,14 @@
         <div class="msi-container">
             <section>
                 <div class="section-title"><?php _e( 'Contacto', 'my_site_info' ); ?></div>
-                <table class="msi-form-table">
-                    <tr valign="top">
-                    <th scope="row"><?php _e( 'Celular', 'my_site_info' ); ?></th>
-                    <td><input
-                        type="text"
-                        name="txt-mobile-phone"
-                        id="txt-mobile-phone"
-                        class="input-text"
-                        value="<?php echo esc_attr( get_option('msi_mobile_phone') ); ?>" />
-                        <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_mobile_phone_bar]</i></span></td>
-                    </tr>
-                    
-                    <tr valign="top">
-                    <th scope="row"><?php _e( 'Telefono', 'my_site_info' ); ?></th>
-                    <td><input
-                        type="text"
-                        name="txt-phone"
-                        id="txt-phone"
-                        class="input-text"
-                        value="<?php echo esc_attr( get_option('msi_phone') ); ?>" />
-                        <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_phone_bar]</i></span></td>
-                    </tr>
-                    
-                    <tr valign="top">
-                    <th scope="row"><?php _e( 'Correo', 'my_site_info' ); ?></th>
-                    <td><input
-                        type="text"
-                        name="txt-email"
-                        id="txt-email"
-                        class="input-text"
-                        value="<?php echo esc_attr( get_option('msi_email') ); ?>" />
-                        <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_email_bar]</i></span></td>
-                    </tr>
-
-                    <tr valign="top">
-                    <th scope="row"><?php _e( 'Whatsapp', 'my_site_info' ); ?></th>
-                    <td><input
-                        type="text"
-                        name="txt-whatsapp"
-                        id="txt-whatsapp"
-                        class="input-text"
-                        value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>" />
-                        <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?> <i>[msi_show_whatsapp_bar]</i></span></td>
-                    </tr>
-                </table>
+                <?php require 'fragment-form-contact.php'; ?>
             </section>
         </div>
 
         <div class="msi-container">
             <section>
                 <div class="section-title"><?php _e( 'Ubicación', 'my_site_info' ); ?></div>
-                <table class="msi-form-table">
-                    <tr valign="top">
-                    <th scope="row"><?php _e( 'Dirección', 'my_site_info' ); ?></th>
-                    <td>
-                        <?php
-                        wp_editor( get_option('msi_address'), 'txt-address', array(
-                            'textarea_rows'	=> '3',
-                            'wpautop' 		=> false,
-                            'media_buttons'	=> false,
-                        ) );
-                        ?>
-                        <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_address]</i> </div>
-                    </td>
-                    </tr>
-                    
-                    <tr valign="top">
-                    <th scope="row"><?php _e( 'Mapa', 'my_site_info' ); ?></th>
-                    <td>
-                        <?php
-                        wp_editor( stripslashes(get_option('msi_map')), 'txt-map', array(
-                            'textarea_rows'	=> 20,
-                            'wpautop' 		=> false,
-                            'media_buttons'	=> false,
-                        ) );
-                        ?>
-                        <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_show_map]</i> </div>
-                    </td>
-                    </tr>
-                </table>
+                <?php require 'fragment-form-location.php'; ?>
             </section>
         </div>
 
