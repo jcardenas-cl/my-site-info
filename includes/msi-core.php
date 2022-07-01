@@ -288,7 +288,7 @@ function msi_admin_enqueue_scripts_and_styles() {
     );
     wp_enqueue_script(
         'msi-script',
-        plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.min.js',
+        plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.js',
         array( 'wp-i18n' ),
         time(),
         true
@@ -321,3 +321,53 @@ function msi_enqueue_public_scripts_and_styles() {
     );
 }
 add_action( 'wp_enqueue_scripts', 'msi_enqueue_public_scripts_and_styles' );
+
+/**
+ * Función encargada de recibir y subir al servidor los archivos de fuente para los iconos de redes sociales, solo admite un icono y es llamado
+ * por cada archivo seleccionado.
+ * @since 1.2.0
+ */
+function msi_process_font_upload() {
+    if ( ! function_exists( 'wp_handle_upload' ) ) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    }
+    
+    $uploaded_file      = $_FILES['file'];
+    $movefile           = wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
+    $json_fonts         = json_decode( get_option( 'fonts_url' ) );
+    $registered_fonts   = (is_array($json_fonts)) ? $json_fonts : array();
+    
+    if ( $movefile && !isset( $movefile['error'] ) ) {
+        $new_font_url       = $movefile['url'];
+        $inserted           = false;
+        for ( $i = 0; $i <= count($registered_fonts) -1; $i++ ) {
+            // Comparar extensiones para saber si reemplazar la url o registrar como nueva.
+            if ( pathinfo($new_font_url, PATHINFO_EXTENSION) == pathinfo($registered_fonts[$i], PATHINFO_EXTENSION) ) {
+                $registered_fonts[$i]   = $new_font_url;
+                $inserted               = true;
+            }
+        }
+
+        if ( !$inserted ) {
+            $registered_fonts[] = $new_font_url;
+        }
+
+        $json_encoded_fonts = json_encode( (array)$registered_fonts );
+        update_option( 'fonts_url', $json_encoded_fonts );
+        //update_option( 'fonts_url', '' );
+        
+        wp_send_json(array(
+            'status'    => 'ok',
+            'url'       => $movefile['url'],
+            'list'      => $json_encoded_fonts,
+
+        ));
+    } else {
+        wp_send_json(array(
+            'status'    => 'error',
+            'list'      => json_encode($registered_fonts),
+        ));
+    }
+    
+}
+add_action( 'wp_ajax_upload_font', 'msi_process_font_upload' );

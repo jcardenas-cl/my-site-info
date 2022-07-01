@@ -435,3 +435,148 @@ show_toggle_triggers.forEach( btn_trigger => {
         }
     });
 })
+
+/**
+ * Evitar el comportamiento por defecto de todos los eventos
+ * 
+ * @since 1.2.0
+ */
+const drop_area_fonts = document.getElementById('upload-fonts-container')
+;['dragenter', 'dragover', 'dragleave', 'drop'].forEach( event_name => {
+    drop_area_fonts.addEventListener( event_name, function( e ) {
+        e.preventDefault()
+        e.stopPropagation()
+    }, false)
+})
+
+/**
+ * Agregar clase para resaltar acciones de drag n drop del usuario.
+ * 
+ * @since 1.2.0
+ */
+;['dragenter', 'dragover'].forEach( event_name => {
+    drop_area_fonts.addEventListener( event_name, function() {
+        drop_area_fonts.classList.add('highlight')
+    }, false)
+})
+
+
+/**
+ * Quita la clase de resaltado por acciones de drag n drop del usuario.
+ * 
+ * @since 1.2.0
+ */
+;['dragleave', 'drop'].forEach( event_name => {
+    drop_area_fonts.addEventListener( event_name, function() {
+        drop_area_fonts.classList.remove('highlight')
+    }, false)
+})
+
+/**
+ * Función usada para agregar los archivos subidos mediante drag n' drop al input file del formulario.
+ * 
+ * @since 1.2.0
+ * 
+ * @param {event} evt Evento disparado al subir archivos
+ */
+const handle_drop_fonts = async (evt) => {
+    const input_file    = document.querySelector('#font_file')
+    input_file.files    = evt.dataTransfer.files
+    const response      = await msi_process_upload_queue( evt.dataTransfer.files )
+    
+    setTimeout( () => {
+        msi_progress_bar(0)
+    }, 1000)
+
+    input_file.files    = null
+    msi_set_uploaded_fonts( response )
+    
+}
+drop_area_fonts.addEventListener( 'drop', handle_drop_fonts, false)
+
+/**
+ * 
+ * @param {json} fonts_urls Objeto JSON con las url de las fuentes subidas
+ */
+const msi_set_uploaded_fonts = fonts_urls => {
+    const urls_container    = document.getElementsByClassName('fonts-urls')[0]
+    
+    urls_container.innerHTML    = ''
+    fonts_urls.forEach(font_url => {
+        const font_row          = document.createElement('div')
+        const img_copy          = document.createElement('img')
+        const url_input         = document.createElement('input')
+
+        font_row.classList.add('font-row')
+        img_copy.setAttribute('src', `${msi_data.plugins_url}/my-site-info/admin/assets/img/copy-icon.svg`)
+        url_input.setAttribute('type','url')
+        url_input.setAttribute('value', font_url)
+
+        font_row.appendChild(img_copy)
+        font_row.appendChild(url_input)
+
+        urls_container.insertAdjacentElement('beforeend', font_row)
+    });
+}
+
+/**
+ * Función encargada de procesar la cola con las subidas pendientes de fuentes. Además llama a la función encargada de mostrar la barra de progreso.
+ */
+const msi_process_upload_queue = async (queued_files) => {
+    let list            = []
+    const queue_length  = queued_files.length
+    let queue_index     = 0
+    for ( const queued_file of queued_files) {
+        const result = await msi_upload_font( queued_file )
+        if ( result.status == 'ok' ) {
+            list = result.list
+            queue_index++
+            msi_progress_bar( queue_index * 100 / queue_length )
+        }
+    }
+
+    return JSON.parse(list)
+}
+
+/**
+ * Función encargada de subir la fuente al servidor, es llamada por cada archivo seleccionado.
+ * @since 1.2.0
+ * 
+ * @param {file} file Archivo a ser cargado al servidor
+ * @return {json} Objeto JSON con los datos de la subida
+ */
+const msi_upload_font = async (file) => {
+    let form_data = new FormData()
+    form_data.append( 'file', file )
+    form_data.append( 'action', 'upload_font' )
+    const promise = await fetch( msi_data.ajax_url, {
+        'method': 'post',
+        'body': form_data
+    })
+    return await promise.json()
+}
+
+/**
+ * Pequeña función encargada de pintar la barra de progreso a medida que se suben las fuentes
+ * @param {float} percentage 
+ */
+const msi_progress_bar = percentage => {
+    const adjusted_percent  = Math.floor(percentage)
+    document.getElementById('fonts-progress-bar').style.width = adjusted_percent + '%'
+    
+}
+
+/**
+ * Mostrar el listado de archivos seleccionados en pantalla.
+ * 
+ * @since 1.2.0
+ */
+ const list_selected_fonts = () => {
+    const font_files    = document.querySelector('#font_file').files
+    const fonts_array   = Array.from(font_files)
+    let fonts_selected  = '';
+    fonts_array.forEach( font => {
+        fonts_selected += `<div>${font.name}</div>`
+    })
+    document.querySelector('.upload-data').innerHTML = fonts_selected
+}

@@ -56,30 +56,15 @@
                         <?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
                     <div class="fonts-uploads">
                         <strong><?php _e( 'Archivos de fuente', 'my_site_info' ); ?></strong>
-                        <!--
-                        <ul id="fonts-list">
-                            <?php
-                            $registered_fonts = json_decode( get_option( 'fonts_url' ) );
-                            if ( 'array' == gettype($registered_fonts) ):
-                                foreach( $registered_fonts as $font_url ):
-                                    ?>
-                                    <li class="font-row">
-                                        <div class="file">
-                                            <input type="file" name="font_file[]"></div>
-                                        <div class="close-font-btn">X</div>
-                                        <div><?php echo $font_url->url; ?>
-                                            <input type="hidden" name="current_font_url[]" value="<?php echo esc_attr( $font_url->url ); ?>"></div>
-                                    </li>
-                                    <?php
-                                endforeach;
-                            endif;
-                            ?>
-                        </ul>
-                        <div id="add-font-button" class="add-font-button"><?php _e( 'Haga clic aquí para agregar una fuente' ); ?></div>
-                        -->
+
                         <div id="upload-fonts-container" class="font-upload-section">
-                            <img class="upload-icon" src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>" alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
-                            <div class="upload-text"><?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?></div>
+                            <div id="fonts-progress-bar"></div>
+                            <label for="font_file">
+                                <img class="upload-icon" src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>" alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
+                                <div class="upload-text"><?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?></div>
+                            </label>
+                            <input type="file" name="font_file" id="font_file" class="input-file" multiple accept=".eot,.svg,.woff,.woff2,.ttf">
+                            <div class="upload-data"></div>
                         </div>
 
                         <div class="font-urls-section accordion msi-hidden">
@@ -92,10 +77,12 @@
                                         ?>
                                         <div class="font-row">
                                             <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/copy-icon.svg'; ?>" alt="<?php _e( 'Copiar', 'my_site_info' ); ?>">
-                                            <input type="url" value="<?php echo $font_url->url; ?>" />
+                                            <input type="url" value="<?php echo $font_url; ?>" />
                                         </div>
                                         <?php
                                     endforeach;
+                                else:
+                                    _e( 'No se han subido archivos de fuente', 'my_site_info' );
                                 endif;
                                 ?>
                             </div>

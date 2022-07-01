@@ -66,9 +66,24 @@
     text-align: center;
     background-color: #eff4f9;
     padding-bottom: 15px;
-    cursor: pointer;
     margin-top: 15px;
     border: 3px dashed #d0e4f7;
+    position: relative;
+}
+.font-upload-section.highlight {
+    background: #916cd3;
+    color: white;
+}
+.font-upload-section label {
+    cursor: pointer;
+}
+.font-upload-section #fonts-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background-color: #916cd3;
 }
 .icon-toggle {
     width: 15px;
@@ -173,9 +188,6 @@ color: #e75c5c
     width: 100%;
     border-top: 1px solid #c9c9c9;
     display: table;
-}
-#rrss-list .input-file {
-    display: none;
 }
 #rrss-list li {
     margin-bottom: 0;
