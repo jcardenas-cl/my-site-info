@@ -115,7 +115,60 @@ const msi_is_valid_phone_list = str_phones => {
 }
 
 /**
- * Funcion ejecutada al realizar el submit del formulario.
+ * Verifica que una cadena tenga el formato valido de una url.
+ * @since 1.2.0
+ * 
+ * @param {string} url_to_test Cadena con la url a probar.
+ * @returns {boolean} True de ser valido, False en caso contrario.
+ */
+const msi_is_valid_url = url_to_test => {
+    var res = url_to_test.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    return (res !== null)
+}
+
+/**
+ * Valida especificamente el listado de redes sociales.
+ * @since 1.2.0
+ * 
+ * @return {boolean} True en caso de ser valido, False en caso contrario.
+ */
+const is_valid_rrss_list = () => {
+    let is_valid = true
+    const rrss_mode = document.querySelector('input[name="rrss-mode"]:checked').value
+    const rrss_rows = document.querySelectorAll('.rrss-row')
+    rrss_rows.forEach( rrss_row => {
+        const name_field    = rrss_row.querySelector('input[name="rrss_name[]"]')
+        const url_field     = rrss_row.querySelector('input[name="rrss_url[]"]')
+        const font_tag      = rrss_row.querySelector('input[name="rrss_font[]"]')
+
+        if ( name_field.value.length == 0 ) {
+            is_valid = false
+            name_field.classList.add('error')
+        } else {
+            name_field.classList.remove('error')
+        }
+        if ( !msi_is_valid_url ( url_field.value ) ) {
+            is_valid = false
+            url_field.classList.add('error')
+        } else {
+            url_field.classList.remove('error')
+        }
+
+        if ( 'rrss-mode-fonts' == rrss_mode ) {
+            if ( font_tag.value.length == 0 ) {
+                is_valid = false
+                font_tag.classList.add('error')
+            } else {
+                font_tag.classList.remove('error')
+            }
+        }
+    })
+
+    return is_valid
+}
+
+/**
+ * Valida que los datos ingresados en todo el formulario tengan valores y que se correspondan con el tipo de dato solicitado.
  * @since 1.0.0
  */
 const msi_check_and_format = () => {
@@ -155,7 +208,9 @@ const msi_check_and_format = () => {
         document.getElementById('txt-whatsapp').classList.add('error')
     }
 
-    if ( valid_cellphones && valid_emails && valid_phones && valid_wsp_phones ) {
+    const valid_rrss_rows = is_valid_rrss_list()
+
+    if ( valid_cellphones && valid_emails && valid_phones && valid_wsp_phones && valid_rrss_rows) {
         return true
     }
 
