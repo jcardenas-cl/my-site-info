@@ -104,56 +104,42 @@ function collect_and_update_data() {
         $rrss_json = json_encode( $rrss_info );
         update_option( 'rrss_options', $rrss_json );
 
-        // Obtener, validar y registrar archivo css para vincular las fuentes
+        // Dado que en el flujo normal los archivos de fuente se suben y registran de manera asincrona, en este punto debemos consultar si es que viene
+        // realmente algún dato, se deja solo en caso de que se descubra que con algun navegador no se pueden subir los archivos de esa manera.
+        if ( $_FILES['font_file']['name'] ) {
+            $font_files = $_FILES['font_file'];
+            $i          = 0;
+            foreach ( $font_files['name'] as $key => $value ) {
+                if ( $font_files['name'][ $key ] ) {
+                    $file = array(
+                        'name'      => $font_files['name'][ $key ],
+                        'type'      => $font_files['type'][ $key ],
+                        'tmp_name'  => $font_files['tmp_name'][ $key ],
+                        'error'     => $font_files['error'][ $key ],
+                        'size'      => $font_files['size'][ $key ],
+                    );
+            
+                    $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
+    
+                    if ( isset( $upload_result['url'] ) ) {
+                        $sent_url_fonts[$i] = $upload_result['url'];
+                    }
+                }
+                $i++;
+            }
+            update_option( 'fonts_url', json_encode( $sent_url_fonts ) );
+        }
+
+        // Obtener, validar y registrar archivo css para vincular las fuentes, solo en caso de que se encuentre presente
+        // pues en un flujo normal, este archivo se procesa de manera asincrona.
         if ( $_FILES['fonts_css_file']['size'] > 0 ) {
             $css_font_file = $_FILES['fonts_css_file'];
             $upload_result = wp_handle_upload( $css_font_file, array( 'test_form' => false ) );
 
-            if ( isset( $upload_result['url'] ) ) {
-                update_option( 'fonts_css_file', $upload_result['url'] );
-                echo $upload_result['url'];
-            } else {
-                echo $upload_result['error'];
+            if ( $upload_result && !isset( $upload_result['error'] ) ) {
+                update_option( 'fonts_css_file', $upload_result['url'] );   
             }
         }
-
-        // Obtener las rutas de los archivos de fuentes subidos al sitio
-        $sent_url_fonts     = array();
-        $current_fonts_urls = $_POST['current_font_url'];
-        $i                  = 0;
-        foreach ( $current_fonts_urls as $font_url ) {
-            $sent_url_fonts[$i] = $font_url;
-            $i++;
-        }
-
-        // Procesar archivos de fuentes subidos al sistema, y reemplaza url de archivos anteriores en caso de que se suba un nuevo fichero.
-        $font_files = $_FILES['font_file'];
-        $i          = 0;
-        foreach ( $font_files['name'] as $key => $value ) {
-            if ( $font_files['name'][ $key ] ) {
-                $file = array(
-                    'name'      => $font_files['name'][ $key ],
-                    'type'      => $font_files['type'][ $key ],
-                    'tmp_name'  => $font_files['tmp_name'][ $key ],
-                    'error'     => $font_files['error'][ $key ],
-                    'size'      => $font_files['size'][ $key ],
-                );
-        
-                $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
-
-                if ( isset( $upload_result['url'] ) ) {
-                    $sent_url_fonts[$i] = $upload_result['url'];
-                }
-            }
-            $i++;
-        }
-
-        // Filtrar posibles valores vacios
-        $filtered_fonts = filter_valid_values( implode( ',', $sent_url_fonts ) );
-        foreach ( $filtered_fonts as $font_url ) {
-            $registered_fonts[]['url'] = $font_url;
-        }
-        update_option( 'fonts_url', json_encode( $registered_fonts ) );
         
         // Validación teléfono móvil
         $mobile_phones = filter_valid_values( $_POST['txt-mobile-phone'] );

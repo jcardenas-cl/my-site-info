@@ -133,6 +133,10 @@
                                 name="fonts_css_file"
                                 id="fonts_css_file"
                                 onchange="msi_handle_css_file( this.files )">
+                            <input
+                                type="hidden"
+                                name="current_font_url"
+                                value="<?php echo esc_url( 'fonts_css_file' ); ?>">
                             <div class="css-url-section accordion msi-hidden">
                                 <div class="show-toggle mt-15"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
                                 <div class="css-url content">
