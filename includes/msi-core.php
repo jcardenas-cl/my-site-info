@@ -332,42 +332,86 @@ function msi_process_font_upload() {
         require_once( ABSPATH . 'wp-admin/includes/file.php' );
     }
     
+    $accepted_extensions= ['eot','svg','ttf','woff','woff2'];
     $uploaded_file      = $_FILES['file'];
-    $movefile           = wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
     $json_fonts         = json_decode( get_option( 'fonts_url' ) );
     $registered_fonts   = (is_array($json_fonts)) ? $json_fonts : array();
-    
-    if ( $movefile && !isset( $movefile['error'] ) ) {
-        $new_font_url       = $movefile['url'];
-        $inserted           = false;
-        for ( $i = 0; $i <= count($registered_fonts) -1; $i++ ) {
-            // Comparar extensiones para saber si reemplazar la url o registrar como nueva.
-            if ( pathinfo($new_font_url, PATHINFO_EXTENSION) == pathinfo($registered_fonts[$i], PATHINFO_EXTENSION) ) {
-                $registered_fonts[$i]   = $new_font_url;
-                $inserted               = true;
-            }
-        }
 
-        if ( !$inserted ) {
-            $registered_fonts[] = $new_font_url;
-        }
-
-        $json_encoded_fonts = json_encode( (array)$registered_fonts );
-        update_option( 'fonts_url', $json_encoded_fonts );
-        //update_option( 'fonts_url', '' );
-        
-        wp_send_json(array(
-            'status'    => 'ok',
-            'url'       => $movefile['url'],
-            'list'      => $json_encoded_fonts,
-
-        ));
-    } else {
+    if ( !in_array(pathinfo($uploaded_file['name'], PATHINFO_EXTENSION), $accepted_extensions ) ) {
         wp_send_json(array(
             'status'    => 'error',
+            'message'   => __( 'Formato no admitido', 'my_site_info' ) . ' ('.pathinfo($uploaded_file['name'], PATHINFO_EXTENSION).')',
             'list'      => json_encode($registered_fonts),
         ));
-    }
+    } else {
+        $movefile           = wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
+        if ( $movefile && !isset( $movefile['error'] ) ) {
+            $new_font_url       = $movefile['url'];
+            $inserted           = false;
+            for ( $i = 0; $i <= count($registered_fonts) -1; $i++ ) {
+                // Comparar extensiones para saber si reemplazar la url o registrar como nueva.
+                if ( pathinfo($new_font_url, PATHINFO_EXTENSION) == pathinfo($registered_fonts[$i], PATHINFO_EXTENSION) ) {
+                    $registered_fonts[$i]   = $new_font_url;
+                    $inserted               = true;
+                }
+            }
     
+            if ( !$inserted ) {
+                $registered_fonts[] = $new_font_url;
+            }
+    
+            $json_encoded_fonts = json_encode( (array)$registered_fonts );
+            update_option( 'fonts_url', $json_encoded_fonts );
+            
+            wp_send_json(array(
+                'status'    => 'ok',
+                'url'       => $movefile['url'],
+                'list'      => $json_encoded_fonts,
+    
+            ));
+        } else {
+            wp_send_json(array(
+                'status'    => 'error',
+                'message'   => __( 'Error al subir la fuente', 'my_site_info' ),
+                'list'      => json_encode($registered_fonts),
+            ));
+        }
+    }
 }
 add_action( 'wp_ajax_upload_font', 'msi_process_font_upload' );
+
+function msi_process_css_upload() {
+    if ( ! function_exists( 'wp_handle_upload' ) ) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    }
+    
+    $accepted_extensions= ['css'];
+    $uploaded_file      = $_FILES['file'];
+    $css_url            = get_option( 'fonts_css_file' );
+
+    if ( !in_array(pathinfo($uploaded_file['name'], PATHINFO_EXTENSION), $accepted_extensions ) ) {
+        wp_send_json(array(
+            'status'    => 'error',
+            'message'   => __( 'Formato no admitido', 'my_site_info' ) . ' ('.pathinfo($uploaded_file['name'], PATHINFO_EXTENSION).')',
+            'url'       => $css_url,
+        ));
+    } else {
+        $movefile           = wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
+        if ( $movefile && !isset( $movefile['error'] ) ) {
+            $new_css_url       = $movefile['url'];
+            update_option( 'fonts_css_file', $new_css_url );
+            
+            wp_send_json(array(
+                'status'    => 'ok',
+                'url'       => $movefile['url'],
+            ));
+        } else {
+            wp_send_json(array(
+                'status'    => 'error',
+                'message'   => __( 'Error al subir la fuente', 'my_site_info' ),
+                'url'       => $css_url,
+            ));
+        }
+    }
+}
+add_action( 'wp_ajax_msi_upload_css', 'msi_process_css_upload' );

@@ -32,6 +32,9 @@
 .upload-icon {
     width: 100px;
 }
+.input-file {
+    display: none;
+}
 #upload-css-file-container .upload-icon {
     width: 40px;
 }
@@ -48,14 +51,14 @@
     margin-bottom: 15px;
 }
 .show-toggle {
-    border: 1px solid #916cd3;
+    border: 1px solid #d5d5d5;
     padding: 3px;
     cursor: pointer;
-    background: #e8dcfd;
+    background: #f7f4f4;
 }
 .accordion .content {
     padding: 5px;
-    border: 1px solid #916cd3;
+    border: 1px solid #d5d5d5;
     border-top: none;
     background-color: #faf7ff;
 }
@@ -71,7 +74,7 @@
     position: relative;
 }
 .font-upload-section.highlight {
-    background: #916cd3;
+    background: #d5d5d5;
     color: white;
 }
 .font-upload-section label {
@@ -83,7 +86,14 @@
     left: 0;
     height: 3px;
     width: 0%;
-    background-color: #916cd3;
+    background-color: #d5d5d5;
+}
+.img-copy-font-url {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+    top: 4px;
 }
 .icon-toggle {
     width: 15px;
@@ -104,6 +114,11 @@
     margin: 0;
     padding: 0;
     font-style: italic;
+    background-color: transparent;
+}
+.font-row input[type=url]:focus {
+    box-shadow: none;
+    border: none;
 }
 .col-50-100 {
     display: inline-block;
@@ -211,8 +226,8 @@ color: #e75c5c
     border-left: 1px solid #c9c9c9;
     color: #b3b3b3;
     cursor: move;
-    font-size: 1.4em;
-    font-weight: 450;
+    font-size: 1.2em;
+    font-family: fantasy;
 }
 #rrss-list .handler-cnt img,
 #rrss-list .rrss-icon-cnt img {
@@ -236,6 +251,8 @@ color: #e75c5c
     text-align: center;
     font-style: italic;
     cursor: pointer;
+    background-color: #ffcece;
+    color: red;
 }
 #rrss-list input {
     width: 90%;
@@ -269,17 +286,81 @@ color: #e75c5c
 .slist {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-bottom: 0;
 }
 .slist li.active {
     background-color: #b6bee5;    
 }
 
+
+
 @media screen and (max-width: 800px) {
     .msi-container {
-        width: 100%;
+        width: 88%;
+    }
+    #fonts-urls-section {
+        margin: 0 15px;
     }
     #rrss-list .handler-cnt, #rrss-list .rrss-icon-cnt {
         padding: 0;
+    }
+    .img-copy-font-url {
+        width: 5%;
+    }
+    .font-row input {
+        width: 90%;
+    }
+    #rrss-list li {
+        display: grid;
+    }
+    #rrss-list li.rrss-row div {
+        display: block;
+    }
+    #rrss-list .handler-cnt {
+        grid-column: 1;
+        grid-row: 1/4;
+        background-color: #f7f4f4;
+        width: auto;
+        height: auto;
+        vertical-align: middle;
+        padding-top: 5px;
+    }
+    #rrss-list .rrss-font-cnt {
+        grid-column: 2/10;
+        grid-row: 1;
+        width: auto;
+    }
+    #rrss-list .name-cnt {
+        grid-column: 2/10;
+        grid-row: 2;
+        width: auto;
+    }
+    #rrss-list .url-cnt {
+        grid-column: 2/10;
+        grid-row: 3;
+        width: auto;
+    }
+    #rrss-list .close-btn {
+        grid-column: 10;
+        grid-row: 1/4;
+        width: auto;
+        height: auto;
+    }
+    #rrss-list .rrss-icon-cnt {
+        grid-column: 2/10;
+        grid-row: 1;
+        width: auto;
+    }
+    #rrss-list.mode-images .name-cnt, #rrss-list.mode-images .url-cnt {
+        width: auto;
+    }
+    #rrss-list .name-cnt, #rrss-list .rrss-font-cnt, #rrss-list .url-cnt {
+        width: auto;
+    }
+    #rrss-list.mode-fonts .name-cnt, #rrss-list.mode-fonts .rrss-font-cnt, #rrss-list.mode-fonts .url-cnt {
+        width: auto;
+    }
+    #rrss-list .handler-cnt img, #rrss-list .rrss-icon-cnt img {
+        width: 40px;
     }
 }

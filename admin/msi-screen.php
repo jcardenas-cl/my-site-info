@@ -59,15 +59,25 @@
 
                         <div id="upload-fonts-container" class="font-upload-section">
                             <div id="fonts-progress-bar"></div>
-                            <label for="font_file">
-                                <img class="upload-icon" src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>" alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
-                                <div class="upload-text"><?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?></div>
-                            </label>
-                            <input type="file" name="font_file" id="font_file" class="input-file" multiple accept=".eot,.svg,.woff,.woff2,.ttf">
+                            <img
+                                class="upload-icon"
+                                src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>"
+                                alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
+                            <div class="upload-text" standard-message="<?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?>">
+                                <?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?></div>
+                            <input
+                                type="file"
+                                name="font_file"
+                                id="font_file"
+                                class="font-input-file"
+                                onchange="msi_handle_font_files( this.files )"
+                                multiple
+                                accept=".eot,.svg,.woff,.woff2,.ttf">
                             <div class="upload-data"></div>
                         </div>
 
                         <div class="font-urls-section accordion msi-hidden">
+                            <div class="hint"><?php _e( 'Reecuerda reemplazar las urls en el archivo css cuando subas una nueva fuente', 'my_site_info' ); ?></div>
                             <div class="show-toggle"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
                             <div class="fonts-urls content">
                                 <?php
@@ -76,8 +86,11 @@
                                     foreach( $registered_fonts as $font_url ):
                                         ?>
                                         <div class="font-row">
-                                            <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/copy-icon.svg'; ?>" alt="<?php _e( 'Copiar', 'my_site_info' ); ?>">
-                                            <input type="url" value="<?php echo $font_url; ?>" />
+                                            <img
+                                                class="img-copy-font-url"
+                                                src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/copy-icon.svg'; ?>"
+                                                alt="<?php _e( 'Copiar', 'my_site_info' ); ?>">
+                                            <input type="url" class="txt-font-row" value="<?php echo $font_url; ?>" />
                                         </div>
                                         <?php
                                     endforeach;
@@ -114,13 +127,15 @@
                         al existente si es que ubiera uno, por lo que asegurese de que tambien esta incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
                         <div>
                             <div><strong><?php _e( 'Archivo CSS', 'my_site_info' ); ?></strong></div>
-                            <div id="upload-css-file-container" class="font-upload-section">
-                                <img class="upload-icon" src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/upload-icon.svg'; ?>" alt="<?php _e( 'Subir Fuentes', 'my_site_info' ); ?>">
-                                <div class="upload-text"><?php _e( 'Arrastra o selecciona el archivo css', 'my_site_info' ); ?></div>
-                            </div>
-                            <div class="accordion msi-hidden">
+                            <input
+                                class="mt-10"
+                                type="file"
+                                name="fonts_css_file"
+                                id="fonts_css_file"
+                                onchange="msi_handle_css_file( this.files )">
+                            <div class="css-url-section accordion msi-hidden">
                                 <div class="show-toggle mt-15"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
-                                <div class="content">
+                                <div class="css-url content">
                                     <?php echo get_option( 'fonts_css_file' ); ?></div>
                                 </div>
                             </div>
