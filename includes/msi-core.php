@@ -111,22 +111,26 @@ function collect_and_update_data() {
         $i                          = 0;
             
         foreach ( $font_files['name'] as $key => $value ) {
-            if ( $font_files['name'][ $key ] ) {
-                $file = array(
-                    'name'      => $font_files['name'][ $key ],
-                    'type'      => $font_files['type'][ $key ],
-                    'tmp_name'  => $font_files['tmp_name'][ $key ],
-                    'error'     => $font_files['error'][ $key ],
-                    'size'      => $font_files['size'][ $key ],
-                );
-        
-                $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
-
-                if ( $upload_result and !isset( $upload_result['error'] )) {
-                    $sent_url_fonts[$i] = $upload_result['url'];
+            if ( !in_array(pathinfo($font_files['name'][$key], PATHINFO_EXTENSION), $accepted_font_extensions ) ) {
+                // Por ahora solo omitimos la subida, considerar tomar una accion a futuro de ser necesario.
+            } else {
+                if ( $font_files['name'][ $key ] ) {
+                    $file = array(
+                        'name'      => $font_files['name'][$key],
+                        'type'      => $font_files['type'][$key],
+                        'tmp_name'  => $font_files['tmp_name'][$key],
+                        'error'     => $font_files['error'][$key],
+                        'size'      => $font_files['size'][$key],
+                    );
+            
+                    $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
+    
+                    if ( $upload_result and !isset( $upload_result['error'] ) ) {
+                        $sent_url_fonts[$i] = $upload_result['url'];
+                    }
                 }
+                $i++;
             }
-            $i++;
         }
 
         // Se ejecuta solo en caso de que haya ingresado al foreach con las fuentes subidas mediante el submit del formulario
@@ -137,11 +141,16 @@ function collect_and_update_data() {
         // Obtener, validar y registrar archivo css para vincular las fuentes, solo en caso de que se encuentre presente
         // pues en un flujo normal, este archivo se procesa de manera asincrona.
         if ( $_FILES['fonts_css_file']['size'] > 0 ) {
-            $css_font_file = $_FILES['fonts_css_file'];
-            $css_upload_result = wp_handle_upload( $css_font_file, array( 'test_form' => false ) );
-
-            if ( $css_upload_result and !isset( $css_upload_result['error'] ) ) {
-                update_option( 'fonts_css_file', $css_upload_result['url'] );   
+            $css_font_file              = $_FILES['fonts_css_file'];
+            $accepted_css_extensions    = array( 'css' );
+            if ( !in_array( pathinfo($css_font_file['name'], PATHINFO_EXTENSION), $accepted_css_extensions ) ) {
+                // Por ahora solo omitimos la subida, considerar tomar una accion a futuro de ser necesario.
+            } else {
+                $css_upload_result  = wp_handle_upload( $css_font_file, array( 'test_form' => false ) );
+    
+                if ( $css_upload_result and !isset( $css_upload_result['error'] ) ) {
+                    update_option( 'fonts_css_file', $css_upload_result['url'] );   
+                }
             }
         }
         
