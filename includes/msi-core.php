@@ -106,38 +106,42 @@ function collect_and_update_data() {
 
         // Dado que en el flujo normal los archivos de fuente se suben y registran de manera asincrona, en este punto debemos consultar si es que viene
         // realmente algún dato, se deja solo en caso de que se descubra que con algun navegador no se pueden subir los archivos de esa manera.
-        if ( $_FILES['font_file']['name'] ) {
-            $font_files = $_FILES['font_file'];
-            $i          = 0;
-            foreach ( $font_files['name'] as $key => $value ) {
-                if ( $font_files['name'][ $key ] ) {
-                    $file = array(
-                        'name'      => $font_files['name'][ $key ],
-                        'type'      => $font_files['type'][ $key ],
-                        'tmp_name'  => $font_files['tmp_name'][ $key ],
-                        'error'     => $font_files['error'][ $key ],
-                        'size'      => $font_files['size'][ $key ],
-                    );
+        $font_files                 = $_FILES['font_file'];
+        $accepted_font_extensions   = ['eot','svg','ttf','woff','woff2'];
+        $i                          = 0;
             
-                    $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
-    
-                    if ( isset( $upload_result['url'] ) ) {
-                        $sent_url_fonts[$i] = $upload_result['url'];
-                    }
+        foreach ( $font_files['name'] as $key => $value ) {
+            if ( $font_files['name'][ $key ] ) {
+                $file = array(
+                    'name'      => $font_files['name'][ $key ],
+                    'type'      => $font_files['type'][ $key ],
+                    'tmp_name'  => $font_files['tmp_name'][ $key ],
+                    'error'     => $font_files['error'][ $key ],
+                    'size'      => $font_files['size'][ $key ],
+                );
+        
+                $upload_result = wp_handle_upload( $file, array( 'test_form' => false ) );
+
+                if ( $upload_result and !isset( $upload_result['error'] )) {
+                    $sent_url_fonts[$i] = $upload_result['url'];
                 }
-                $i++;
             }
-            update_option( 'fonts_url', json_encode( $sent_url_fonts ) );
+            $i++;
         }
 
+        // Se ejecuta solo en caso de que haya ingresado al foreach con las fuentes subidas mediante el submit del formulario
+        if ( isset($sent_url_fonts) ) {
+            update_option( 'fonts_url', json_encode( $sent_url_fonts ) );
+        }
+        
         // Obtener, validar y registrar archivo css para vincular las fuentes, solo en caso de que se encuentre presente
         // pues en un flujo normal, este archivo se procesa de manera asincrona.
         if ( $_FILES['fonts_css_file']['size'] > 0 ) {
             $css_font_file = $_FILES['fonts_css_file'];
-            $upload_result = wp_handle_upload( $css_font_file, array( 'test_form' => false ) );
+            $css_upload_result = wp_handle_upload( $css_font_file, array( 'test_form' => false ) );
 
-            if ( $upload_result && !isset( $upload_result['error'] ) ) {
-                update_option( 'fonts_css_file', $upload_result['url'] );   
+            if ( $css_upload_result and !isset( $css_upload_result['error'] ) ) {
+                update_option( 'fonts_css_file', $css_upload_result['url'] );   
             }
         }
         

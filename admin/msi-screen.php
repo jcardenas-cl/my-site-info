@@ -67,7 +67,7 @@
                                 <?php _e( 'Arrastra o selecciona los archivos de fuente', 'my_site_info' ); ?></div>
                             <input
                                 type="file"
-                                name="font_file"
+                                name="font_file[]"
                                 id="font_file"
                                 class="font-input-file"
                                 onchange="msi_handle_font_files( this.files )"
@@ -130,9 +130,10 @@
                             <input
                                 class="mt-10"
                                 type="file"
+                                onchange="msi_handle_css_file( this.files )"
                                 name="fonts_css_file"
                                 id="fonts_css_file"
-                                onchange="msi_handle_css_file( this.files )">
+                                accept=".css">
                             <input
                                 type="hidden"
                                 name="current_font_url"
