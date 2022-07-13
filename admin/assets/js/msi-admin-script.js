@@ -33,6 +33,7 @@ const  add_new_item_rrss = () => {
     icon_file.setAttribute( 'type', 'file' )
     icon_file.setAttribute( 'name', 'rrss_icon[]' )
     icon_file.setAttribute( 'class', 'input-file' )
+    icon_file.setAttribute( 'accept', 'image/*' )
     icon_file.onchange = evt => { change_icon_preview( evt ) }
     current_ic.setAttribute( 'type', 'hidden' )
     current_ic.setAttribute( 'name', 'current_icon[]' )
