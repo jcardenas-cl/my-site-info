@@ -477,7 +477,7 @@ const drop_area_fonts = document.getElementById('upload-fonts-container')
  const handle_drop_fonts = async (evt) => {
     msi_handle_font_files( evt.dataTransfer.files )
 }
-drop_area_fonts.addEventListener( 'drop', handle_drop_fonts, false)
+drop_area_fonts.addEventListener( 'drop', handle_drop_fonts, false )
 
 /**
  * Función encargada de procesar los archivos seleccionados mediante drag n drop, o mediante la ventana de selección. Además refleja el estado de progreso general mediante

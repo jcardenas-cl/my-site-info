@@ -12,7 +12,11 @@
             <?php echo $i; ?></div>
         <div class="rrss-icon-cnt">
             <label>
-                <input type="file" name="rrss_icon[]" class="input-file" accept="image/*">
+                <input
+                    type="file"
+                    name="rrss_icon[]"
+                    class="input-file"
+                    accept="image/*">
                 <img src="<?php echo esc_attr( $rrss_row->icon ); ?>">
             </label>
             <input
