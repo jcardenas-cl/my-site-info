@@ -15,10 +15,9 @@ add_shortcode( 'msi_show_rrss_bar', function ( $args ) {
     $layout_to_use = get_option( 'layout_rrss' );
     // En caso que no se especifique el layout por parametro, se usa la configuracion guardada.
     if ( !is_null( $args['layout'] ) ) {
+        $layout_to_use = 'layout-1';
         if ( $args['layout'] == 'layout-2' ) {
             $layout_to_use = $args['layout'];
-        } else {
-            $layout_to_use = 'layout-1';
         }
     }
 
