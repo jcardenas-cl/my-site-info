@@ -70,7 +70,7 @@
                                 name="font_file[]"
                                 id="font_file"
                                 class="font-input-file"
-                                
+                                onchange="msi_handle_font_files( this.files )"
                                 multiple
                                 accept=".eot,.svg,.woff,.woff2,.ttf">
                             <div class="upload-data"></div>
@@ -130,7 +130,7 @@
                             <input
                                 class="mt-10"
                                 type="file"
-                                
+                                onchange="msi_handle_css_file( this.files )"
                                 name="fonts_css_file"
                                 id="fonts_css_file"
                                 accept=".css">
