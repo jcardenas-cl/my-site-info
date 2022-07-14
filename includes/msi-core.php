@@ -55,6 +55,7 @@ function collect_and_update_data() {
         $current_icons  = $_POST['current_icon'];
         $fonts          = $_POST['rrss_font'];
 
+        // Tratamos cada fila de las redes sociales como un arreglo, e inicialmente guardamos sus datos en el arreglo independiente de si tiene datos validos o no.
         $i = 0;
         foreach ( $urls as $url ) {
             $rrss_info[$i]['url'] = $url;
@@ -101,7 +102,9 @@ function collect_and_update_data() {
             $i++;
         }
 
-        $rrss_json = json_encode( $rrss_info );
+        $rrss_rows = msi_filter_valid_rrss_rows( $rrss_info, $_POST['rrss-mode'] );
+        $rrss_json = json_encode( $rrss_rows );
+
         update_option( 'rrss_options', $rrss_json );
 
         // Dado que en el flujo normal los archivos de fuente se suben y registran de manera asincrona, en este punto debemos consultar si es que viene
@@ -249,6 +252,21 @@ function msi_is_valid_phone_number_format( $phone ) {
     }
     
     return true;
+}
+
+/**
+ * Validar que un string tenga un formato correcto de url.
+ * @since 1.2.0
+ * 
+ * @param string $url String con la url a validar
+ * @return bool
+ */
+function msi_is_valid_url( $url ) {
+    if ( filter_var($url, FILTER_VALIDATE_URL) ) {
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -422,4 +440,42 @@ function msi_upload_and_register_css( $uploaded_file ) {
             );
         }
     }
+}
+
+/**
+ * Valida que las filas con datos de las redes sociales esten completos y con información correcta.
+ * @since 1.2.0
+ * 
+ * @param array $rrss_input_rows Arreglo con todas las filas de redes sociales a registrar
+ * @param string $mode Cadena con el formato para mostrar los iconos
+ * @return array Arreglo con filas de redes sociales que sean validas
+ */
+function msi_filter_valid_rrss_rows( $rrss_input_rows, $mode ) {
+    $output_rrss = array();
+    $j = 0;
+    for ( $i = 0; $i <= count( $rrss_input_rows ) - 1; $i++ ) {
+        $valid_row = true;
+        if ( '' == trim($rrss_input_rows[$i]['name']) ) {
+            $valid_row = false;
+        }
+        if ( !msi_is_valid_url($rrss_input_rows[$i]['url']) ) {
+            $valid_row = false;
+        }
+
+        if ( 'rrss-mode-fonts' == $mode ) {
+            if ( '' == trim($rrss_input_rows[$i]['font']) ) {
+                $valid_row = false;
+            }
+        }
+
+        if ( $valid_row ) {
+            $output_rrss[$j]['name']  = $rrss_input_rows[$i]['name'];
+            $output_rrss[$j]['url']   = $rrss_input_rows[$i]['url'];
+            $output_rrss[$j]['font']  = $rrss_input_rows[$i]['font'];
+            $output_rrss[$j]['icon']  = $rrss_input_rows[$i]['icon'];
+            $j++;
+        }
+    }
+
+    return $output_rrss;
 }
