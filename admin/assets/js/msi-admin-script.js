@@ -662,8 +662,11 @@ const msi_print_upload_error = message => {
  */
 const msi_copy_font_url = evt => {
     var element = (evt.target || evt.srcElement)
-    const font_row = element.closest('.font-row').querySelector('.txt-font-row').value
-    navigator.clipboard.writeText(font_row).then( () => {
-        alert(__( 'Url copiada', 'my_site_info' ))
+    document.querySelectorAll('.txt-font-row').forEach(element => {
+        element.classList.remove('copy')
+    })
+    const font_row = element.closest('.font-row').querySelector('.txt-font-row')
+    navigator.clipboard.writeText(font_row.value).then( () => {
+        font_row.classList.add('copy')
     })
 }

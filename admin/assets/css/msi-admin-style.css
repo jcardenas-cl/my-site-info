@@ -116,6 +116,9 @@
     font-style: italic;
     background-color: transparent;
 }
+.font-row input.copy {
+    background-color: #bedfbe;
+}
 .font-row input[type=url]:focus {
     box-shadow: none;
     border: none;
