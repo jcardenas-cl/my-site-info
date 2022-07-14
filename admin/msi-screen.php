@@ -77,8 +77,7 @@
                         </div>
 
                         <div class="font-urls-section accordion msi-hidden">
-                            <div class="hint"><?php _e( 'Reecuerda reemplazar las urls en el archivo css cuando subas una nueva fuente', 'my_site_info' ); ?></div>
-                            <div class="show-toggle"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
+                            <div class="show-toggle"><?php _e( 'Urls', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
                             <div class="fonts-urls content">
                                 <?php
                                 $registered_fonts = json_decode( get_option( 'fonts_url' ) );
@@ -103,9 +102,9 @@
 
                         <div class="label mt-10"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo css para que contenga dichas url,
                         esto puede variar dependiendo de muchos factores como nombre de la fuente, estilo, etc. De cualquier forma, el código a reemplazar será
-                        similar al siguiente.', 'my_site_info' ); ?></div>
+                        similar al siguiente. Reecuerda que si has cambiado los archivos de fuente, probablemente necesites volver a actualizar tu archivo CSS.', 'my_site_info' ); ?></div>
                         <div class="css-example-section accordion msi-hidden mt-15">
-                            <div class="show-toggle"><?php _e( 'Mostrar Ejemplo', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
+                            <div class="show-toggle"><?php _e( 'Ejemplo', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
                             <div class="content">
                                 <code>
                                 @font-face {
@@ -139,7 +138,7 @@
                                 name="current_font_url"
                                 value="<?php echo esc_url( 'fonts_css_file' ); ?>">
                             <div class="css-url-section accordion msi-hidden">
-                                <div class="show-toggle mt-15"><?php _e( 'Mostrar Url', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
+                                <div class="show-toggle mt-15"><?php _e( 'Urls', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
                                 <div class="css-url content">
                                     <?php echo get_option( 'fonts_css_file' ); ?></div>
                                 </div>

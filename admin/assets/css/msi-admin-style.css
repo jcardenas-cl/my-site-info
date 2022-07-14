@@ -139,7 +139,7 @@
     text-align: left;
     font-weight: normal;
 }
-.rrss-mode-selection .label,
+
 .fonts-urls .label {
     margin-bottom: 5px;
 }
@@ -315,6 +315,7 @@ color: #e75c5c
     }
     #rrss-list li {
         display: grid;
+        border-bottom: 1px solid #c9c9c9;
     }
     #rrss-list li.rrss-row div {
         display: block;
@@ -356,6 +357,7 @@ color: #e75c5c
     }
     #rrss-list.mode-images .name-cnt, #rrss-list.mode-images .url-cnt {
         width: auto;
+        padding: 5px 0;
     }
     #rrss-list .name-cnt, #rrss-list .rrss-font-cnt, #rrss-list .url-cnt {
         width: auto;
@@ -363,7 +365,15 @@ color: #e75c5c
     #rrss-list.mode-fonts .name-cnt, #rrss-list.mode-fonts .rrss-font-cnt, #rrss-list.mode-fonts .url-cnt {
         width: auto;
     }
-    #rrss-list .handler-cnt img, #rrss-list .rrss-icon-cnt img {
+    #rrss-list .rrss-icon-cnt img {
         width: 40px;
+        margin-top: 5px;
+    }
+    .select-rrss-layout .label,
+    .fonts-urls .label, .rrss-mode-selection .label {
+        margin-bottom: 10px;
+    }
+    #rrss-list li.rrss-row div {
+        border-bottom: none;
     }
 }
