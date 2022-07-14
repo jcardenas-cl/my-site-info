@@ -280,7 +280,7 @@ function msi_admin_enqueue_scripts_and_styles() {
     );
     wp_enqueue_script(
         'msi-script',
-        plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.js',
+        plugins_url() . '/my-site-info/admin/assets/js/msi-admin-script.min.js',
         array( 'wp-i18n' ),
         time(),
         true
