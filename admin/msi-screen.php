@@ -9,7 +9,7 @@
             <section>
                 <div class="section-title"><?php _e( 'Redes Sociales', 'my_site_info' ); ?></div>
                 <div class="select-rrss-layout">
-                    <div class="label"><?php _e( 'Seleccione como desea ver la lista de RRSS', 'my_site_info' ); ?></div>
+                    <div class="label"><?php _e( 'Selecciona como se verá la lista con RRSS', 'my_site_info' ); ?></div>
                     <label for="layout-1">
                         <?php $checked = ( 'layout-1' == get_option('layout_rrss') ) ? ' checked' : ''; ?>
                         <input
@@ -30,7 +30,7 @@
                         <?php _e( 'Iconos y nombre', 'my_site_info' ); ?></label>
                 </div>
                 <div class="rrss-mode-selection">
-                    <div class="label"><?php _e( 'Seleccione el modo en que cargará los iconos', 'my_site_info' ); ?></div>
+                    <div class="label"><?php _e( 'Selecciona el modo para mostrar los iconos', 'my_site_info' ); ?></div>
                     <label for="rrss-mode-images">
                         <?php $checked = ( 'rrss-mode-images' == get_option('mode_rrss') ) ? ' checked' : ''; ?>
                         <input
@@ -53,7 +53,8 @@
                 <?php $display_font_list = ( 'rrss-mode-fonts' == get_option('mode_rrss') ) ? '' : ' no-display'; ?>
                 <div class="mb-15 fonts-urls-section<?php echo $display_font_list; ?>" id="fonts-urls-section">
                     <div class="msi-notice">
-                        <?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extrensiones .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en multiples navegadores', 'my_site_info' ); ?></div>
+                        <?php _e( 'Para usar el modo fuente, lo primero será subir los archivos con las fuentes, estos suelen tener las extensiones  
+                        .eot, .svg, .ttf, .woff y .woff2 para asegurar que sea visible en múltiples navegadores.', 'my_site_info' ); ?></div>
                     <div class="fonts-uploads">
                         <strong><?php _e( 'Archivos de fuente', 'my_site_info' ); ?></strong>
 
@@ -100,9 +101,9 @@
                             </div>
                         </div>
 
-                        <div class="label mt-10"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo css para que contenga dichas url,
+                        <div class="label mt-10"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo CSS para que contenga dichas url,
                         esto puede variar dependiendo de muchos factores como nombre de la fuente, estilo, etc. De cualquier forma, el código a reemplazar será
-                        similar al siguiente. Reecuerda que si has cambiado los archivos de fuente, probablemente necesites volver a actualizar tu archivo CSS.', 'my_site_info' ); ?></div>
+                        similar al siguiente. Recuerda que si has cambiado los archivos de fuente, probablemente necesites volver a actualizar tu archivo CSS.', 'my_site_info' ); ?></div>
                         <div class="css-example-section accordion msi-hidden mt-15">
                             <div class="show-toggle"><?php _e( 'Ejemplo', 'my_site_info' ); ?> <img src="<?php echo plugins_url() . '/my-site-info/admin/assets/img/arrow-icon.svg'; ?>" alt="" class="icon-toggle"></div>
                             <div class="content">
@@ -122,8 +123,8 @@
                             </div>
                         </div>
                         <div class="label mt-10 mb-15"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
-                        vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación. Considere que este archivo reemplazará
-                        al existente si es que ubiera uno, por lo que asegurese de que tambien esta incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
+                        vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación. Considera que este archivo reemplazará
+                        al existente si es que hubiera uno, por lo que asegúrate de que también estas incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
                         <div>
                             <div><strong><?php _e( 'Archivo CSS', 'my_site_info' ); ?></strong></div>
                             <input
@@ -147,8 +148,8 @@
                 </div>
                 <div class="label"><?php _e( 'Lista con redes sociales', 'my_site_info' ); ?></div>
                 <?php require 'fragment-rrss-list.php'; ?>
-                <div id="btn-add-social-network"><?php _e( 'Haga clic para agregar un nuevo elemento', 'my_site_info' ); ?></div>
-                <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?> <i>[msi_rrss_bar]</i> </div>
+                <div id="btn-add-social-network"><?php _e( 'Haz clic para agregar un nuevo elemento', 'my_site_info' ); ?></div>
+                <div class="hint"><?php _e( 'Para mostrar esta lista usa el shortcode', 'my_site_info' ); ?> <i>[msi_rrss_bar]</i> </div>
             </section>
         </div>
 

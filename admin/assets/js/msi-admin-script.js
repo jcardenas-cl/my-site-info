@@ -215,7 +215,7 @@ const msi_check_and_format = () => {
         return true
     }
 
-    alert(__("Favor, revise los campos marcados", "my_site_info"))
+    alert(__("Revisa los campos marcados por favor.", "my_site_info"))
     document.body.scrollTop             = 0;
     document.documentElement.scrollTop  = 0;
     return false

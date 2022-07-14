@@ -7,7 +7,7 @@
             id="txt-mobile-phone"
             class="input-text"
             value="<?php echo esc_attr( get_option('msi_mobile_phone') ); ?>"/>
-            <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
+            <span class="hint"><?php _e( 'Separa múltiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
                 <i>[msi_show_mobile_phone_bar]</i></span></td>
     </tr>
 
@@ -19,7 +19,7 @@
             id="txt-phone"
             class="input-text"
             value="<?php echo esc_attr( get_option('msi_phone') ); ?>"/>
-            <span class="hint"><?php _e( 'Separe multiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
+            <span class="hint"><?php _e( 'Separa múltiples números con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
                 <i>[msi_show_phone_bar]</i></span></td>
     </tr>
 
@@ -31,7 +31,7 @@
             id="txt-email"
             class="input-text"
             value="<?php echo esc_attr( get_option('msi_email') ); ?>"/>
-            <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
+            <span class="hint"><?php _e( 'Separa múltiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
                 <i>[msi_show_email_bar]</i></span></td>
     </tr>
 
@@ -43,7 +43,7 @@
             id="txt-whatsapp"
             class="input-text"
             value="<?php echo esc_attr( get_option('msi_whatsapp') ); ?>"/>
-            <span class="hint"><?php _e( 'Separe multiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
+            <span class="hint"><?php _e( 'Separa múltiples correos con una coma. Mostrar info. con shortcode', 'my_site_info' ); ?>
                 <i>[msi_show_whatsapp_bar]</i></span></td>
     </tr>
 </table>

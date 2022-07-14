@@ -9,7 +9,7 @@
                             'media_buttons'	=> false,
                         ) );
                         ?>
-            <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?>
+            <div class="hint"><?php _e( 'Para mostrar esta lista usa el shortcode', 'my_site_info' ); ?>
                 <i>[msi_show_address]</i>
             </div>
         </td>
@@ -25,7 +25,7 @@
                             'media_buttons'	=> false,
                         ) );
                         ?>
-            <div class="hint"><?php _e( 'Para mostrar esta lista use el shortcode', 'my_site_info' ); ?>
+            <div class="hint"><?php _e( 'Para mostrar esta lista usa el shortcode', 'my_site_info' ); ?>
                 <i>[msi_show_map]</i>
             </div>
         </td>
