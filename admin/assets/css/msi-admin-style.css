@@ -50,6 +50,9 @@
 .mb-15 {
     margin-bottom: 15px;
 }
+.text-justify {
+    text-align: justify;
+}
 .show-toggle {
     border: 1px solid #d5d5d5;
     padding: 3px;

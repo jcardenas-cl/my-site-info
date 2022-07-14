@@ -101,7 +101,7 @@
                             </div>
                         </div>
 
-                        <div class="label mt-10"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo CSS para que contenga dichas url,
+                        <div class="label mt-10 text-justify"><?php _e( 'Con las url de todas las fuentes necesarias, es necesario editar el archivo CSS para que contenga dichas url,
                         esto puede variar dependiendo de muchos factores como nombre de la fuente, estilo, etc. De cualquier forma, el código a reemplazar será
                         similar al siguiente. Recuerda que si has cambiado los archivos de fuente, probablemente necesites volver a actualizar tu archivo CSS.', 'my_site_info' ); ?></div>
                         <div class="css-example-section accordion msi-hidden mt-15">
@@ -122,7 +122,7 @@
                                 </code>
                             </div>
                         </div>
-                        <div class="label mt-10 mb-15"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
+                        <div class="label mt-10 mb-15 text-justify"><?php _e( 'Solo se deben reemplazar las URL de cada fuente por las entregadas en cada fuente subida, 
                         vigilando que se corresponda con los formatos mencionados. Una vez editado el archivo CSS, súbelo a continuación. Considera que este archivo reemplazará
                         al existente si es que hubiera uno, por lo que asegúrate de que también estas incluyendo fuentes anteriores.', 'my_site_info' ); ?></div>
                         <div>
